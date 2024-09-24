@@ -14,10 +14,16 @@
                         <span key="t-dashboards">Dashboard</span>
                     </a>
                 </li>
-                <li @class(['mm-active' => Request::is('dashboard')])>
-                    <a href="{{ route('dashboard.index') }}" class="waves-effect">
+                <li @class(['mm-active' => Request::is('building')])>
+                    <a href="{{ route('building.index') }}" class="waves-effect">
                         <i class="bx bx-building-house"></i>
-                        <span key="t-building-house">Building/Property</span>
+                        <span key="t-building-house">Manage Building</span>
+                    </a>
+                </li>
+                <li @class(['mm-active' => Request::is('building')])>
+                    <a href="{{ route('building.index') }}" class="waves-effect">
+                        <i class="bx bx-building-house"></i>
+                        <span key="t-building-house">Manage Units</span>
                     </a>
                 </li>
             </ul>

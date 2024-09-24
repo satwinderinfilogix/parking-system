@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\AuthController;
 
 
@@ -16,5 +17,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::resources([
         'dashboard'  => DashboardController::class,
+        'building'  => BuildingController::class,
     ]);
 });
