@@ -71,5 +71,30 @@
                 });
             } */
         });
-    })
+
+        $('#unitSelect').on('change', function() {
+            const formData = {
+                building_id: $("#buildingSelect").val(),
+                unit_id: $("#unitSelect").val(),
+            }
+
+            $.ajax({
+                url: '/plans',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success == true) {
+                        $('div.plan-container[data-plan="3days"]').removeClass('bg-primary-subtle').addClass('bg-dark-subtle text-white');
+                    } else {
+                        $('div.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
+                    }
+                }
+            });
+        });
+    });
 </script>

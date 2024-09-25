@@ -23,17 +23,21 @@
         </div>
     </div>
 
-    <input type="hidden" name="selected_plan">
+    <input type="hidden" name="selected_plan" id="selected_plan">
 </section>
 
 
 <script>
     $(function(){
-        $('.plan-container').click(function(){
+        $(document).on('click', '.plan-container:not(.bg-dark-subtle)', function() {
             $('[name="selected_plan"]').val($(this).attr('data-plan'));
 
             $('.plan-container').removeClass('bg-primary text-white').addClass('bg-primary-subtle');
             $(this).toggleClass('bg-primary-subtle bg-primary text-white');
+            $('.actions').removeClass('d-none');
+        });
+
+        $('.first').click(function(){
             $('.actions').removeClass('d-none');
         })
     })

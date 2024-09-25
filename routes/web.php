@@ -25,5 +25,5 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
 
 // Api Endpoint
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
-
+Route::post('plans', [ParkingController::class, 'plans']);
 Route::post('/create-parking', [ParkingController::class, 'create']);

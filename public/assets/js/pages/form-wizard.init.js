@@ -1,5 +1,5 @@
 $(function() {
-    const units = {
+    /* const units = {
         "Building 1": {
             "Unit 101": "Code101",
             "Unit 102": "Code102",
@@ -10,7 +10,7 @@ $(function() {
             "Unit 202": "Code202",
             "Unit 203": "Code203"
         }
-    };
+    }; */
 
 
     $("#basic-example").steps({
@@ -73,8 +73,37 @@ $(function() {
             return true; // Allow moving backward without validation
         },
         onFinished: function(event, currentIndex) {
-            alert("Form submitted!");
-            // Here you can add form submission logic
+            const formData = {
+                building_id: $("#buildingSelect").val(),
+                unit_id: $("#unitSelect").val(),
+                securityCode: $("#securityCode").val(),
+                plan: $('[name="selected_plan"]').val(),
+                startDate: $("#start-date").val(),
+                brand: $("#brand").val(),
+                model: $("#model").val(),
+                color: $("#color").val(),
+                licensePlate: $("#license-plate").val(),
+                confirmationMethod: $("#confirmation-method").val(),
+                email: $("#email").val(),
+                phone_number : $("#phone").val()
+            };
+
+            $.ajax({
+                url: '/create-parking',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success == true) {
+                        alert("Form submitted successfully!");
+                        window.location.reload();
+                    }
+                }
+            });
         }
     });
 });
