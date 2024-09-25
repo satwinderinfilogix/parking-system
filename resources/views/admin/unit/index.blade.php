@@ -22,14 +22,14 @@
                         $data = $units->map(function ($unit) {
                             return (object)[
                                 'id' => $unit->id,
-                                'name' => $unit->name,
+                                'unit_number' => $unit->unit_number,
                                 'building' => $unit->building->name
                             ];
                         });
                         @endphp
                         <div class="card-body">
                             @php
-                                $columns = ['name','building'];
+                                $columns = ['unit_number','building'];
                                 $editRoute = 'unit.edit'; 
                                 $deleteRoute = 'unit.destroy'; 
                             @endphp

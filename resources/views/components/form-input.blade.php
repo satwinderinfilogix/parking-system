@@ -18,7 +18,6 @@
         <button class="btn btn-light" type="button" id="password-addon">
             <i class="mdi mdi-eye-outline"></i>
         </button><br>
-
     @endif
 
     @if ($errors->has($name))

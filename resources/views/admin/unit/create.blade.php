@@ -32,26 +32,25 @@
                                 <div class="row m-4">
                                     <div class="col-lg-6">
                                         <label for="basicpill-building">Building</label>
-                                        <select class="form-control select2" name="building_id" required>
-                                            <option>Select</option>
+                                        <select class="form-control select2" name="building_id">
+                                            <option value="" disabled selected>Select Building</option>
                                             @foreach ($buildings as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('building_id')
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Unit name</label>
-                                        <input type="text" class="form-control" name="name" id="basicpill-building-input" placeholder="Enter Unit Name" required>
+                                        <x-form-input name="unit_number" value="{{ old('unit_number') }}" label="Unit Number" placeholder="Enter Unit Number"/>
                                     </div>
                                 </div>
                                 <div class="row m-4">
                                     <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Unit Number</label>
-                                        <input type="number" class="form-control" name="unit_number" id="basicpill-building-input" placeholder="Enter Unit Number" required>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Security Code</label>
-                                        <input type="number" class="form-control" name="security_code" id="basicpill-building-input" placeholder="Enter Security Code" required>
+                                        <x-form-input name="security_code" value="{{ old('security_code') }}" label="Security Code" placeholder="Enter Security Code"/>
                                     </div>
                                 </div>
                                 <div class="row m-4">
@@ -64,7 +63,6 @@
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
-
         </div> <!-- container-fluid -->
     </div>
 @endsection

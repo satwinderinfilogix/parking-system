@@ -39,20 +39,21 @@
                                                 <option value="{{ $item->id }}" @selected($units->building_id == $item->id)>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('building_id')
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Unit name</label>
-                                        <input type="text" value="{{ $units->name }}" class="form-control" name="name" id="basicpill-building-input" placeholder="Enter Unit Name" required>
+                                        <x-form-input name="unit_number" value="{{ $units->unit_number }}" label="Unit Number" placeholder="Enter Unit Number"/>
                                     </div>
                                 </div>
                                 <div class="row m-4">
                                     <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Unit Number</label>
-                                        <input type="number" value="{{ $units->unit_number }}" class="form-control" name="unit_number" id="basicpill-building-input" placeholder="Enter Unit Number" required>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="basicpill-building-input">Security Code</label>
-                                        <input type="number" value="{{ $units->security_code }}" class="form-control" name="security_code" id="basicpill-building-input" placeholder="Enter Security Code" required>
+                                        <div class="col-lg-6">
+                                            <x-form-input name="security_code" value="{{ $units->security_code }}" label="Security Code" placeholder="Enter Security Code"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row m-4">
