@@ -31,13 +31,18 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        $exist = Unit::where('building_id',$request->building_id)->where("unit_number",$request->unit_number)->first();
+        $request->validate([
+            'building_id'   => 'required',
+            'unit_number'   => 'required',
+            'security_code' =>'required'
+        ]);
+
+        $exist = Unit::where('building_id', $request->building_id)->where('unit_number', $request->unit_number)->first();
         if($exist){
             return redirect()->route('unit.create')->with('error','Unit already exist');
         }else{
             $unit = Unit::create([
                 "building_id" => $request->building_id,
-                "name" => $request->name,
                 "unit_number" => $request->unit_number,
                 "security_code" => $request->security_code,
             ]);
@@ -68,9 +73,14 @@ class UnitController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'building_id'   => 'required',
+            'unit_number'   => 'required',
+            'security_code' =>'required'
+        ]);
+
         $unit = Unit::where('id',$id)->update([
             "building_id" => $request->building_id,
-            "name" => $request->name,
             "unit_number" => $request->unit_number,
             "security_code" => $request->security_code,
         ]);
@@ -82,6 +92,22 @@ class UnitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $unit = Unit::where('id',$id)->delete();
+        return redirect()->route('unit.index')->with('success','unit deleted successfully');
+    }
+
+
+    public function unitByBuilding($buildingId)
+    {
+        $units = Unit::where('building_id', $buildingId)->get();
+
+        if ($units->isEmpty()) {
+            return response()->json(['message' => 'No units found for this building.'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'units'   => $units
+        ]);
     }
 }

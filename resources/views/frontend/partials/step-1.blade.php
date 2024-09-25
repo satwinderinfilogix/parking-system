@@ -5,8 +5,9 @@
                 <label class="form-label">Building Name</label>
                 <select name="building_name" class="form-control select2" id="buildingSelect" required>
                     <option value="" selected disabled>Select Building</option>
-                    <option>Building 1</option>
-                    <option>Building 2</option>
+                    @foreach($buildings as $key => $building)
+                        <option value="{{$building->id }}">{{$building->name}}</option>
+                    @endforeach
                 </select>
 
                 <span class="invalid-feedback">Please select building</span>
@@ -37,10 +38,10 @@
 
 <script>
     $(function() {
-        const units = {
+        /* const units = {
             "Building 1": ["Unit 101", "Unit 102", "Unit 103"],
             "Building 2": ["Unit 201", "Unit 202", "Unit 203"]
-        };
+        }; */
 
         $('#buildingSelect').on('change', function() {
             const selectedBuilding = $(this).val();
@@ -48,13 +49,27 @@
 
             // Clear previous units
             $unitSelect.empty().append('<option value="" selected disabled>Select Unit</option>');
-
+            $.ajax({
+                url: `/units-by-building-id/${selectedBuilding}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Check if units are returned
+                    if (response.units && response.units.length > 0) {
+                        response.units.forEach(unit => {
+                            $unitSelect.append(`<option value="${unit.id}" data-password="${unit.security_code}">${unit.unit_number}</option>`);
+                        });
+                    } else {
+                        $unitSelect.append('<option value="" disabled>No units available</option>');
+                    }
+                }
+            });
             // Populate units based on the selected building
-            if (units[selectedBuilding]) {
+            /* if (units[selectedBuilding]) {
                 units[selectedBuilding].forEach(unit => {
                     $unitSelect.append(`<option value="${unit}">${unit}</option>`);
                 });
-            }
+            } */
         });
     })
 </script>

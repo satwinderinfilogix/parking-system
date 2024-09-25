@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ParkingController;
 
 Route::get('/', [FrontendController::class, 'index']);
 
@@ -20,3 +21,9 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
         'unit'  => UnitController::class,
     ]);
 });
+
+
+// Api Endpoint
+Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
+
+Route::post('/create-parking', [ParkingController::class, 'create']);
