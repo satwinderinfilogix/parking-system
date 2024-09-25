@@ -56,6 +56,10 @@ $(function() {
                         } else {
                             valid = true;
                             $currentForm.find("#securityCode").removeClass("is-invalid");
+                            
+                            if(!$('[name="selected_plan"]').val()){
+                                $('.actions').addClass('d-none');
+                            }
                         }
                     } else {
                         valid = false;
