@@ -9,24 +9,10 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
     <link href="{{ asset('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-
-    <style>
-        .select2-container--default .select2-selection--single {
-            height: 36px;
-            line-height: 36px;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 36px;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 36px;
-        }
-    </style>
 </head>
 
 <body data-sidebar="dark">
@@ -48,7 +34,7 @@
                     <div class="col-lg-8 mx-auto">
                         <div class="card">
                             <div class="card-body">
-                                <div id="basic-example">
+                                <div id="book-parking-form">
                                     <h3>Building Details</h3>
                                     @include('frontend.partials.step-1')
                                     
@@ -77,8 +63,9 @@
 
     <script src="{{ asset('assets/libs/jquery-steps/build/jquery.steps.min.js') }}"></script>
 
-    <script src="{{ asset('assets/js/pages/form-wizard.init.js') }}"></script>
+    <script src="{{ asset('assets/frontend/js/script.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
     <script>
         $(function() {

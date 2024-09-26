@@ -25,7 +25,8 @@ class ParkingController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Parking created successfully.',
-            'data'    => $parking
+            'data'    => $parking,
+            'parkingId' => $parking->id
         ]);
     }
 
@@ -49,5 +50,12 @@ class ParkingController extends Controller
                 'data'    => $plan
             ]);
         }
+    }
+
+    public function showBookedParking(){
+        $parkingId = session('parking_id');
+        $parking = Parking::with('building', 'unit')->find($parkingId);
+
+        return view('frontend.invoice', compact('parking'));
     }
 }

@@ -1,19 +1,5 @@
 $(function() {
-    /* const units = {
-        "Building 1": {
-            "Unit 101": "Code101",
-            "Unit 102": "Code102",
-            "Unit 103": "Code103"
-        },
-        "Building 2": {
-            "Unit 201": "Code201",
-            "Unit 202": "Code202",
-            "Unit 203": "Code203"
-        }
-    }; */
-
-
-    $("#basic-example").steps({
+    $("#book-parking-form").steps({
         headerTag: "h3",
         bodyTag: "section",
         transitionEffect: "slide",
@@ -31,12 +17,21 @@ $(function() {
                             $(this).parent().find('.select2-selection').css({'border': '1px solid #f46a6a'});
                         }
 
+                        if($(this).attr('data-provide')=='datepicker'){
+                            $(this).parents('.datepicker-container').find('.invalid-feedback').show();
+                        }
+
                         $(this).addClass("is-invalid");
                     } else {
+                        valid = true;
                         if($(this).hasClass('select2')){
                             $(this).parent().find('.select2-selection').removeAttr('style');
                         }
 
+                        if($(this).attr('data-provide')=='datepicker'){
+                            $(this).parents('.datepicker-container').find('.invalid-feedback').hide();
+                        }
+                        
                         $(this).removeClass("is-invalid");
                     }
                 });
@@ -64,6 +59,16 @@ $(function() {
                         }
                     } else {
                         valid = false;
+                    }
+                }
+
+                if(currentIndex===3){
+                    if($('#agreeTerms:checked').length > 0){
+                        valid = true;
+                        $('[href="#finish"]').parent().removeClass('disabled');
+                    } else {
+                        valid = false;
+                        $('[href="#finish"]').parent().addClass('disabled');
                     }
                 }
 
@@ -99,8 +104,7 @@ $(function() {
                 dataType: 'json',
                 success: function(response) {
                     if(response.success == true) {
-                        alert("Form submitted successfully!");
-                        window.location.reload();
+                        window.location = `parking-booked/${response.parkingId}`;
                     }
                 }
             });

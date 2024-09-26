@@ -2,20 +2,23 @@
     <div>
         <div class="row">
             <div class="col-lg-6">
-                <div class="mb-3">
+                <div class="mb-3 datepicker-container">
                     <label for="start-date">Date Start</label>
-                    <input type="date" class="form-control" id="start-date" required>
+                    <div class="input-group" id="startDate">
+                        <input type="text" class="form-control" id="start-date" placeholder="YYYY-MM-DD" required
+                            data-date-format="yyyy-mm-dd" data-date-container='#startDate' data-provide="datepicker"
+                            data-date-autoclose="true">
+
+                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
                     <span class="invalid-feedback">Please enter a valid date.</span>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label for="brand">Car brand</label>
-                    <select id="brand" class="form-select select2" required>
-                        <option value="" selected disabled>Select Car Brand</option>
-                        <option value="Maruti Suzuki">Maruti Suzuki</option>
-                        <option value="Mahindra">Mahindra</option>
-                    </select>
+                    <input type="text" class="form-control" id="brand" placeholder="Enter Vehicle Brand"
+                        required>
                     <span class="invalid-feedback">Please select a car brand.</span>
                 </div>
             </div>
@@ -24,22 +27,16 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label for="model">Model</label>
-                    <input type="number" class="form-control" id="model" placeholder="Enter Model" required>
+                    <input type="text" class="form-control" id="model" placeholder="Enter Model" required>
                     <span class="invalid-feedback">Please enter a valid model number.</span>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label for="color">Color</label>
-                    <select id="color" class="form-select select2" required>
-                        <option value="" selected disabled>Select Color</option>
-                        <option value="Black">Black</option>
-                        <option value="White">White</option>
-                        <option value="Red">Red</option>
-                        <option value="Green">Green</option>
-                        <option value="Gray">Gray</option>
-                    </select>
-                    <span class="invalid-feedback">Please select a color.</span>
+                    <input type="text" class="form-control" id="color" placeholder="Enter Vehicle Color"
+                        required>
+                    <span class="invalid-feedback">Please enter a valid model number.</span>
                 </div>
             </div>
         </div>
@@ -47,7 +44,8 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label for="license-plate">License Plate</label>
-                    <input type="text" class="form-control" id="license-plate" placeholder="Enter License Plate" required>
+                    <input type="text" class="form-control" id="license-plate" placeholder="Enter License Plate"
+                        required>
                     <span class="invalid-feedback">Please enter a valid license plate.</span>
                 </div>
             </div>
@@ -84,14 +82,19 @@
 
 <script>
     $(document).ready(function() {
+        let today = new Date();
+        $('#start-date').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            startDate: today // Disable past dates
+        });
+
         $('#confirmation-method').change(function() {
             const selectedValue = $(this).val();
-            
+
             // Hide both inputs initially
             $('#email-input').hide();
             $('#phone-input').hide();
-
-            console.log('selectedValue',selectedValue)
 
             // Show the relevant input based on selection
             if (selectedValue === 'Email') {
