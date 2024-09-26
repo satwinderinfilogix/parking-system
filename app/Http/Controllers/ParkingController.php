@@ -7,6 +7,13 @@ use App\Models\Parking;
 
 class ParkingController extends Controller
 {
+    public function index()
+    {
+        $parkings = Parking::with('building', 'unit')->latest()->get();
+
+        return view('admin.parking.index', compact('parkings'));
+    }
+
     public function create(Request $request)
     {
         $parking = Parking::create([

@@ -26,6 +26,12 @@
                         <span key="t-building-house">Manage Units</span>
                     </a>
                 </li>
+                <li @class(['mm-active' => Request::is(['parking'])])>
+                    <a href="{{ route('parking.index') }}" class="waves-effect">
+                        <i class="bx bx-building-house"></i>
+                        <span key="t-building-house">Manage Parking</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->
