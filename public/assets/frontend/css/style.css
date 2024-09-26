@@ -14,3 +14,8 @@ td.disabled.day {
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 36px!important;
 }
+
+.dashed-border {
+    border: 2px dashed #8b8686;
+    padding: 20px;
+}
