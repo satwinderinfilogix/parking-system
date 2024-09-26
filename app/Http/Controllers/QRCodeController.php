@@ -13,7 +13,7 @@ class QRCodeController extends Controller
         $link = route('booked-parking', $parkingId);
 
         // Generate the QR code
-        $qrCode = QrCode::size(300)->generate($link);
+        $qrCode = QrCode::generate($link);
 
         return response($qrCode)->header('Content-Type', 'image/svg+xml');
     }
