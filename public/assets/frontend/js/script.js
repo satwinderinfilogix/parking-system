@@ -78,6 +78,15 @@ $(function() {
             return true; // Allow moving backward without validation
         },
         onFinished: function(event, currentIndex) {
+            if(currentIndex===3){
+                if($('#agreeTerms:checked').length > 0){
+                    $('[href="#finish"]').parent().removeClass('disabled');
+                } else {
+                    $('[href="#finish"]').parent().addClass('disabled');
+                    return false;
+                }
+            }
+
             const formData = {
                 building_id: $("#buildingSelect").val(),
                 unit_id: $("#unitSelect").val(),
