@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Parking;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ParkingEmail;
 
 class ParkingController extends Controller
 {
@@ -16,7 +18,7 @@ class ParkingController extends Controller
 
     public function create(Request $request)
     {
-        $parking = Parking::create([
+        $parkingDetail = Parking::create([
             'building_id' => $request->building_id,
             'unit_id'     => $request->unit_id,
             'plan'        => $request->plan,
@@ -29,11 +31,16 @@ class ParkingController extends Controller
             'phone_number'  => $request->phone_number
         ]);
 
+        if($request->email) {
+            $parking = route('booked-parking', $parkingDetail->id);
+            Mail::to($request->email)->send(new ParkingEmail($parking));
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Parking created successfully.',
-            'data'    => $parking,
-            'parkingId' => $parking->id
+            'data'    => $parkingDetail,
+            'parkingId' => $parkingDetail->id
         ]);
     }
 
@@ -59,8 +66,7 @@ class ParkingController extends Controller
         }
     }
 
-    public function showBookedParking(){
-        $parkingId = session('parking_id');
+    public function showBookedParking($parkingId){
         $parking = Parking::with('building', 'unit')->find($parkingId);
 
         return view('frontend.invoice', compact('parking'));
