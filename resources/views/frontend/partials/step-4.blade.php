@@ -21,18 +21,18 @@
                 </ol>
             </div>
 
-            <div class="form-check mb-3 ms-3">
+            {{-- <div class="form-check mb-3 ms-3">
                 <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                 <label class="form-check-label" for="agreeTerms">
                     I have read and agree to the Terms and Conditions.
                 </label>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
 
 
-<script>
+{{-- <script>
     $(function(){
         $('#agreeTerms').change(function() {
             if ($(this).is(':checked')) {
@@ -42,4 +42,4 @@
             }
         });
     });
-</script>
+</script> --}}
