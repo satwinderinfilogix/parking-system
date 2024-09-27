@@ -31,3 +31,9 @@
         @endforeach
     </tbody>
 </table>
+
+<script>
+    $(function(){
+        $('#datatable').dataTable();
+    })
+</script>

@@ -62,8 +62,8 @@
             <div class="spinner-container">
                 <i class="mdi mdi-loading spinner"></i>
             </div>
-            
-            <p>Please wait...</p>
+
+            <p>Please wait receipt is being generated...</p>
         </div>
     </div>
 

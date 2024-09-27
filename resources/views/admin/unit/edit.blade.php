@@ -51,9 +51,7 @@
                                 </div>
                                 <div class="row m-4">
                                     <div class="col-lg-6">
-                                        <div class="col-lg-6">
-                                            <x-form-input name="security_code" value="{{ $units->security_code }}" label="Security Code" placeholder="Enter Security Code"/>
-                                        </div>
+                                        <x-form-input name="security_code" value="{{ $units->security_code }}" label="Security Code" placeholder="Enter Security Code"/>
                                     </div>
                                 </div>
                                 <div class="row m-4">

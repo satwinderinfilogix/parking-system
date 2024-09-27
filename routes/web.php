@@ -28,3 +28,4 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
 
 // Api Endpoint
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
+Route::get('/units/data', [UnitController::class, 'getUnits']);
