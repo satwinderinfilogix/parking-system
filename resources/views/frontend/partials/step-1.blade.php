@@ -79,7 +79,7 @@
             }
 
             $.ajax({
-                url: '/plans',
+                url: '/api/plans',
                 type: 'POST',
                 contentType: 'application/json',
                 headers: {

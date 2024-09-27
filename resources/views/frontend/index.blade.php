@@ -57,6 +57,17 @@
         </div>
     </div>
 
+    <div class="overlay" id="processing">
+        <div class="text-center">
+            <div class="spinner-container">
+                <i class="mdi mdi-loading spinner"></i>
+            </div>
+            
+            <p>Please wait...</p>
+        </div>
+    </div>
+
+
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
@@ -66,7 +77,7 @@
     <script src="{{ asset('assets/frontend/js/script.js') }}"></script>
     <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-
+    
     <script>
         $(function() {
             $('.select2').select2({

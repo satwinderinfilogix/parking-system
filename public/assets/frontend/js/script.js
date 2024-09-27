@@ -102,8 +102,10 @@ $(function() {
                 phone_number : $("#phone").val()
             };
 
+            $('#processing').css('display', 'flex');
+
             $.ajax({
-                url: '/create-parking',
+                url: '/api/create-parking',
                 type: 'POST',
                 contentType: 'application/json',
                 headers: {
@@ -113,10 +115,17 @@ $(function() {
                 dataType: 'json',
                 success: function(response) {
                     if(response.success == true) {
+                        $('#processing i').attr('class','mdi mdi-check-all fs-1 text-success');
+                        $('#processing p').html('Form has been submitted successfully! Please reload the page to book a new parking...');
                         window.location = `parking-booked/${response.parkingId}`;
+                    } else {
+                        $('#processing').css('display', 'none');
+                        alert('Something went wrong!')
                     }
                 }
             });
         }
     });
+
+    $('[aria-label="Pagination"] li:last a').html('Confirm')
 });
