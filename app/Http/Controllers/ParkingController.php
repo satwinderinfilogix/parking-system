@@ -146,16 +146,20 @@ class ParkingController extends Controller
     public function addNew()
     {
         $buildings = Building::all();
-
         return view('admin.parking.create', compact('buildings'));
+    }
+
+    public function edit(Parking $parking)
+    {
+        $buildings = Building::all();
+        return view('admin.parking.edit', compact('buildings', 'parking'));
     }
 
     public function store(Request $request)
     {
         $rules = [
-            'building_id'   => 'required',
-            'unit_number'   => 'required',
-            'security_code' => 'required',
+            'building'      => 'required',
+            'unit'          => 'required',
             'plan'          => 'required',
             'start_date'    => 'required',
             'car_brand'     => 'required',
@@ -172,19 +176,61 @@ class ParkingController extends Controller
         }
         $request->validate($rules);
 
-        $parkingDetail = Parking::create([
-            'building_id' => $request->building_id,
-            'unit_id'     => $request->unit_id,
+        Parking::create([
+            'building_id' => $request->building,
+            'unit_id'     => $request->unit,
             'plan'        => $request->plan,
             'start_date'  => $request->start_date,
             'car_brand'   => $request->car_brand,
             'model'       => $request->model,
             'color'       => $request->color,
-            'license_plate'=> $request->licensePlate,
+            'license_plate'=> $request->license_plate,
             'email'        => $request->email,
             'phone_number'  => $request->phone_number
         ]);
 
         return redirect()->route('parking.index')->with('success', 'Parking created successfully');
+    }
+    
+    public function update(Parking $parking, Request $request)
+    {
+        $rules = [
+            'building'      => 'required',
+            'unit'          => 'required',
+            'plan'          => 'required',
+            'start_date'    => 'required',
+            'car_brand'     => 'required',
+            'model'         => 'required',
+            'color'         => 'required',
+            'license_plate' => 'required',
+            'confirmation'  => 'required',
+        ];
+    
+        if ($request->confirmation === 'Email') {
+            $rules['email'] = 'required|email';
+        } else if($request->confirmation === 'Text') {
+            $rules['phone'] = 'required';
+        }
+        $request->validate($rules);
+
+        $parking->update([
+            'building_id' => $request->building,
+            'unit_id'     => $request->unit,
+            'plan'        => $request->plan,
+            'start_date'  => $request->start_date,
+            'car_brand'   => $request->car_brand,
+            'model'       => $request->model,
+            'color'       => $request->color,
+            'license_plate'=> $request->license_plate,
+            'email'        => $request->email,
+            'phone_number'  => $request->phone_number
+        ]);
+
+        return redirect()->route('parking.index')->with('success', 'Parking updated successfully');
+    }
+
+    public function destroy(Parking $parking){
+        $parking->delete();
+        return redirect()->route('parking.index')->with('success', 'Parking deleted successfully');
     }
 }

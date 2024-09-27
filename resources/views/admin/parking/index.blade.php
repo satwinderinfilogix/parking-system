@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-
+    
     <script>
         $(function() {
             $('.select2').select2();
@@ -102,7 +102,8 @@
                             `;
                         }
                     }
-                ]
+                ],
+                order: [[0, 'desc']]
             });
 
             

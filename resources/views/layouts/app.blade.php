@@ -23,9 +23,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}" id="app-style">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}">
+    <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
-
 </head>
 
 <body data-sidebar="dark">

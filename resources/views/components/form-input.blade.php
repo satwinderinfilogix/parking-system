@@ -6,7 +6,7 @@
             name="{{ $name }}"
             id="{{ $name }}"
             value="{{ old($name, $value) }}"
-            {{ $attributes->merge(['class' => 'form-control']) }}
+            {{ $attributes->merge(['class' => 'form-control'.($errors->has($name) ? ' is-invalid' : '')]) }}
         >
     @else
     <div class="input-group auth-pass-inputgroup">
@@ -21,7 +21,7 @@
     @endif
 
     @if ($errors->has($name))
-        <span class="invalid-message">
+        <span class="invalid-feedback">
             {{ $errors->first($name) }}
         </span>
     @endif
