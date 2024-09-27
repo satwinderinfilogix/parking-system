@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Parking;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ParkingEmail;
+use App\Models\Building;
 
 class ParkingController extends Controller
 {
@@ -85,7 +86,6 @@ class ParkingController extends Controller
             "data" => $data
         ]);
     }
-    
 
     public function create(Request $request)
     {
@@ -143,7 +143,48 @@ class ParkingController extends Controller
         return view('frontend.invoice', compact('parking'));
     }
 
-    public function addNew(){
-        return view('admin.parking.create');
+    public function addNew()
+    {
+        $buildings = Building::all();
+
+        return view('admin.parking.create', compact('buildings'));
+    }
+
+    public function store(Request $request)
+    {
+        $rules = [
+            'building_id'   => 'required',
+            'unit_number'   => 'required',
+            'security_code' => 'required',
+            'plan'          => 'required',
+            'start_date'    => 'required',
+            'car_brand'     => 'required',
+            'model'         => 'required',
+            'color'         => 'required',
+            'license_plate' => 'required',
+            'confirmation'  => 'required',
+        ];
+    
+        if ($request->confirmation === 'Email') {
+            $rules['email'] = 'required|email';
+        } else if($request->confirmation === 'Text') {
+            $rules['phone'] = 'required';
+        }
+        $request->validate($rules);
+
+        $parkingDetail = Parking::create([
+            'building_id' => $request->building_id,
+            'unit_id'     => $request->unit_id,
+            'plan'        => $request->plan,
+            'start_date'  => $request->start_date,
+            'car_brand'   => $request->car_brand,
+            'model'       => $request->model,
+            'color'       => $request->color,
+            'license_plate'=> $request->licensePlate,
+            'email'        => $request->email,
+            'phone_number'  => $request->phone_number
+        ]);
+
+        return redirect()->route('parking.index')->with('success', 'Parking created successfully');
     }
 }
