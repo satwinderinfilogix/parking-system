@@ -8,7 +8,7 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0 font-size-18">Parking</h4>
                         <div class="page-title-right">
-                            <a href="{{ route('unit.create') }}" class="btn btn-primary">Add New Units</a>
+                            <a href="{{ route('parking.addNew') }}" class="btn btn-primary">Add New Parking</a>
                         </div>
                     </div>
                 </div>
@@ -18,30 +18,98 @@
                     <x-error-message :message="session('error')" />
                     <x-success-message :message="session('success')" />
                     <div class="card">
-                        @php 
-                        $data = $parkings->map(function ($parking) {
-                            return (object)[
-                                'id' => $parking->id,
-                                'building' => $parking->building->name,
-                                'unit_number' => $parking->unit->unit_number,
-                                'plan'        => $parking->plan,
-                                'start_date'  => $parking->start_date,
-                                'license_plate'=> $parking->license_plate,
-                                'email'       => $parking->email ?? 'N/A',
-                                'phone_number'=> $parking->phone_number ?? 'N/A' 
-                            ];
-                        });
-                        @endphp
                         <div class="card-body">
-                            @php
-                                $columns = ['building', 'unit_number', 'plan', 'start_date', 'license_plate', 'email', 'phone_number'];
-                            @endphp
-                            <x-data-table :data="$data" :columns="$columns" />
-
+                            <table id="datatable" class="able table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Building</th>
+                                        <th>Unit Number</th>
+                                        <th>Plan</th>
+                                        <th>Start Date</th>
+                                        <th>License Plate</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $(function() {
+            $('.select2').select2();
+
+            let unitsTable = $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/parkings/data',
+                    type: 'GET',
+                    data: function(d) {
+                        d.building = $('#building').val();
+                    }
+                },
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return row.building;
+                        }
+                    },
+                    {
+                        data: 'unit_number'
+                    },
+                    {
+                        data: 'plan'
+                    },
+                    {
+                        data: 'start_date'
+                    },
+                    {
+                        data: 'license_plate'
+                    },
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'phone_number'
+                    },
+                    {
+                        data: null,
+                        name: 'actions',
+                        orderable: false,
+                        render: function(data, type, row) {
+                            let editUrl = `{{ route('parking.edit', ':id') }}`.replace(':id', row
+                                .id);
+                            let deleteUrl = `{{ route('parking.destroy', ':id') }}`.replace(
+                                ':id', row.id);
+
+                            return `
+                                <a href="${editUrl}" class="btn btn-primary">Edit</a>
+                                <form action="${deleteUrl}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            `;
+                        }
+                    }
+                ]
+            });
+
+            
+            $('#building').change(function() {
+                const buildingId = $(this).val();
+                unitsTable.ajax.reload();
+            });
+        })
+    </script>
 @endsection
