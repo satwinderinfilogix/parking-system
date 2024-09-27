@@ -1,15 +1,17 @@
 <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
     <thead>
         <tr>
+            <th>#</th>
             @foreach ($columns as $column)
-                <th>{{ ucfirst($column) }}</th>
+                <th>{{ ucwords(str_replace('_', ' ', $column)) }}</th>
             @endforeach
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($data as $item)
+        @foreach ($data as $index => $item)
             <tr>
+                <td>{{ $index + 1 }}</td> 
                 @foreach ($columns as $column)
                     <td>{{ $item->$column }}</td>
                 @endforeach

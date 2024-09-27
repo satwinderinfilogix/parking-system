@@ -22,6 +22,7 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
         'dashboard'  => DashboardController::class,
         'building'  => BuildingController::class,
         'unit'  => UnitController::class,
+        'parking' => ParkingController::class,
     ]);
 });
 
