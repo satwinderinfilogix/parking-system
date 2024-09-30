@@ -11,7 +11,7 @@
 
         <div class="col-lg-6 add-new-vehicle-btn">
             <div class="mb-3">
-                <button class="btn btn-primary w-100" id="add-new-vehicle">
+                <button class="btn btn-primary w-100 add-new-vehicle">
                     Add New
                 </button>
             </div>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Enter new vehicle</button>
+                    <button type="button" class="btn btn-primary add-new-vehicle">Add new vehicle</button>
                 </div>
             </div>
         </div>
@@ -140,7 +140,7 @@
             startDate: today // Disable past dates
         });
 
-        $('#add-new-vehicle').click(function() {
+        $('.add-new-vehicle').click(function() {
             $('.add-new-vehicle-btn').addClass('d-none');
             $('.vehicle-form').removeClass('d-none');
             $('.actions').removeClass('d-none');
@@ -149,6 +149,8 @@
             $('#model').val(``);
             $('#color').val(``);
             $('#license-plate').val(``);
+            $('#email').val(``);
+            $('#phone').val(``);
         })
 
         $(document).on('click', '.use-vehicle', function(event) {
