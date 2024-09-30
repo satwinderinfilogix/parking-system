@@ -62,6 +62,10 @@ $(function() {
                     }
                 }
 
+                if(currentIndex===1){
+                    $('.actions').addClass('d-none');
+                }
+
                 /* if(currentIndex===3){
                     if($('#agreeTerms:checked').length > 0){
                         valid = true;
