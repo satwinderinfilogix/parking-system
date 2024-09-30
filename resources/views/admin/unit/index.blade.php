@@ -8,12 +8,12 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0 font-size-18">Units</h4>
                         <div class="page-title-right d-flex align-items-center">
-                            <a href="{{ url('download-units-sample') }}" class="btn btn-primary me-2">Units Sample File</a>
+                            <a href="{{ url('download-units-sample') }}" class="btn btn-primary me-2">Download Sample CSV</a>
                             <form id="importForm" action="{{ route('units.import') }}" method="POST" enctype="multipart/form-data" class="me-2">
                                 @csrf
                                 <button type="button" class="btn btn-primary" id="importButton">
                                     <i data-feather="upload" class="me-2"></i>
-                                    Import Csv
+                                    Import CSV
                                 </button>
                                 <input type="file" id="fileInput" name="file" accept=".csv" style="display:none;">
                             </form>

@@ -38,11 +38,6 @@
 
 <script>
     $(function() {
-        /* const units = {
-            "Building 1": ["Unit 101", "Unit 102", "Unit 103"],
-            "Building 2": ["Unit 201", "Unit 202", "Unit 203"]
-        }; */
-
         $('#buildingSelect').on('change', function() {
             const selectedBuilding = $(this).val();
             const $unitSelect = $('#unitSelect');
@@ -82,7 +77,7 @@
             $(`#30_days_cost`).val(monthlyCost);
             
             if(monthlyCost < 1){
-                $(`.monthlyPlanCost`).html(`FREE`);
+                $(`.monthlyPlanCost`).html(`Free`);
             } else {
                 $(`.monthlyPlanCost`).html(`&dollar;${monthlyCost.toFixed(2)}`);
             }
@@ -102,9 +97,27 @@
                     } else {
                         $('.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
                     }
-
+                    
                     if (response.data) {
-                        $('.plan-container').attr('data-vehicles-history', response.data);
+                        $('#prev-vehicles-history').html(``);
+
+                        if(response.data.length > 0){
+                            $('#prev-vehicle-history-buttons').removeClass('d-none');
+                            $('.vehicle-form').addClass('d-none');
+                        } else {
+                            $('#prev-vehicle-history-buttons').addClass('d-none');
+                            $('.vehicle-form').removeClass('d-none');
+                        }
+
+                        response.data.forEach((vehicle, index) => {
+                            $('#prev-vehicles-history').append(`<tr data-vehicle="${encodeURIComponent(JSON.stringify(vehicle))}">
+                                <td>${++index}</td>
+                                <td>${vehicle.car_brand}</td>
+                                <td>${vehicle.model}</td>
+                                <td>${vehicle.license_plate}</td>
+                                <td><button class="btn btn-primary btn-sm use-vehicle"><i class="fa fa-check"></i></button></td>
+                            </tr>`);
+                        });
                     }
                 }
             });

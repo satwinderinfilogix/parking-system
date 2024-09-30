@@ -9,9 +9,11 @@ $(function() {
                 // Validate current step
                 const $currentForm = $(this).find("section").eq(currentIndex);
                 let valid = true;
+                let invalidInputs = 0;
                 
                 $currentForm.find("input:visible, select:visible").each(function() {
                     if ($(this).prop("required") && !$(this).val()) {
+                        invalidInputs++;
                         valid = false;
                         if($(this).hasClass('select2')){
                             $(this).parent().find('.select2-selection').css({'border': '1px solid #f46a6a'});
@@ -35,6 +37,10 @@ $(function() {
                         $(this).removeClass("is-invalid");
                     }
                 });
+
+                if(invalidInputs > 0){
+                    valid = false;
+                }
 
                 if(currentIndex===0){
                     // check if security code is matched
@@ -62,7 +68,9 @@ $(function() {
                     }
                 }
 
-                if(currentIndex===1){
+                if(currentIndex===1 && !$('.vehicle-form').hasClass('d-none')){
+                    $('.actions').removeClass('d-none');
+                } else if(currentIndex===1){
                     $('.actions').addClass('d-none');
                 }
 
@@ -75,7 +83,7 @@ $(function() {
                         $('[href="#finish"]').parent().addClass('disabled');
                     }
                 } */
-
+                
                 return valid; // Proceed if valid
             }
             
