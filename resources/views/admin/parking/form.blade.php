@@ -82,8 +82,8 @@
         <label for="confirmation-method">Receive Confirmation By:</label>
         <select @class(['form-control', 'is-invalid' => $errors->has('confirmation')]) name="confirmation" id="confirmation-method">
             <option value="" selected disabled>Select Source</option>
-            <option value="Email" @selected((old('confirmation') == 'Email') || ($parking->email))>Email</option>
-            <option value="Text" @selected((old('confirmation') == 'Text')  || ($parking->phone_number))>Text</option>
+            <option value="Email" @selected((old('confirmation') == 'Email') || ($parking->email ?? ''))>Email</option>
+            <option value="Text" @selected((old('confirmation') == 'Text')  || ($parking->phone_number ?? ''))>Text</option>
         </select>
         @error('confirmation')
             <span class="text-danger">
@@ -92,12 +92,12 @@
         @enderror
     </div>
 
-    <div class="col-lg-6 mb-2" id="email-input" @style(['display: none' => (old('confirmation') !== 'Email' && !$parking->email)])>
-        <x-form-input name="email" value="{{ $parking->email }}" id="email" label="Email"
+    <div class="col-lg-6 mb-2" id="email-input" @style(['display: none' => (old('confirmation') !== 'Email' && (!isset($parking) || !$parking->email))])>
+        <x-form-input name="email" value="{{ $parking->email ?? '' }}" id="email" label="Email"
             placeholder="Enter Email" />
     </div>
-    <div class="col-lg-6 mb-2" id="phone-input" @style(['display: none' => old('confirmation') !== 'Text' && !$parking->phone_number])>
-        <x-form-input name="phone" value="{{ $parking->phone_number }}" id="phone" label="Phone Number"
+    <div class="col-lg-6 mb-2" id="phone-input" @style(['display: none' => (old('confirmation') !== 'Text' && (!isset($parking) || !$parking->phone_number))])>
+        <x-form-input name="phone" value="{{ $parking->phone_number ?? '' }}" id="phone" label="Phone Number"
             placeholder="Enter Phone Number" />
     </div>
 </div>
