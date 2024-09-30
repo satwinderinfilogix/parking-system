@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Building;
 use App\Models\Unit;
+use App\Imports\UnitsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 
 class UnitController extends Controller
 {
@@ -161,5 +164,23 @@ class UnitController extends Controller
             'success' => true,
             'units'   => $units
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xlsx',
+        ]);
+
+        $import = new UnitsImport;
+        Excel::import($import, $request->file('file'));
+
+        if ($errors = $import->getErrors()) {
+            $flattenedErrors = array_merge(...$errors);
+
+            return redirect()->back()->withErrors($flattenedErrors)->withInput(); // Redirect back with errors
+        }
+
+        return redirect()->route('unit.index')->with('success', 'Units imported successfully.');
     }
 }

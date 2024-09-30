@@ -28,6 +28,15 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::get('/parkings/add', [ParkingController::class, 'addNew'])->name('parking.addNew');
 });
 
+// Import Csv Files 
+Route::post('units/import', [UnitController::class, 'import'])->name('units.import'); // Import Unit csv file
+
+// Export Csv Files
+Route::get('download-units-sample', function() {
+    $file = public_path('assets/sample-unit/units.csv');
+    return Response::download($file);
+});
+
 // Api Endpoint
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
 Route::get('/units/data', [UnitController::class, 'getUnits']);
