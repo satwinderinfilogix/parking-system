@@ -16,7 +16,7 @@
                 <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="30days">
                     <div class="card-body">
                         <h5>30 Days Parking</h5>
-                        <h4>$20.00</h4>
+                        <h4 class="monthlyPlanCost">$20.00</h4>
                     </div>
                 </div>
             </div>
@@ -24,6 +24,7 @@
     </div>
 
     <input type="hidden" name="selected_plan" id="selected_plan">
+    <input type="hidden" name="30_days_cost" id="30_days_cost">
 </section>
 
 

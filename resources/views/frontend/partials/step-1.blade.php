@@ -57,7 +57,7 @@
                     // Check if units are returned
                     if (response.units && response.units.length > 0) {
                         response.units.forEach(unit => {
-                            $unitSelect.append(`<option value="${unit.id}" data-password="${unit.security_code}">${unit.unit_number}</option>`);
+                            $unitSelect.append(`<option value="${unit.id}" data-password="${unit.security_code}" data-30-days-cost="${unit['30_days_cost']}">${unit.unit_number}</option>`);
                         });
                     } else {
                         $unitSelect.append('<option value="" disabled>No units available</option>');
@@ -78,6 +78,16 @@
                 unit_id: $("#unitSelect").val(),
             }
 
+            let monthlyCost = parseFloat($(`#unitSelect option:selected`).attr('data-30-days-cost'));
+            $(`#30_days_cost`).val(monthlyCost);
+            
+            if(monthlyCost < 1){
+                $(`.monthlyPlanCost`).html(`FREE`);
+            } else {
+                console.log(`$${monthlyCost.toFixed(2)}`);
+                $(`.monthlyPlanCost`).html(`$${monthlyCost}`);
+            }
+
             $.ajax({
                 url: '/api/plans',
                 type: 'POST',
@@ -89,9 +99,9 @@
                 dataType: 'json',
                 success: function(response) {
                     if(response.success == true) {
-                        $('div.plan-container[data-plan="3days"]').removeClass('bg-primary-subtle').addClass('bg-dark-subtle text-white');
+                        $('.plan-container[data-plan="3days"]').removeClass('bg-primary-subtle').addClass('bg-dark-subtle text-white');
                     } else {
-                        $('div.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
+                        $('.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
                     }
                 }
             });
