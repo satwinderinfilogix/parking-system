@@ -84,8 +84,7 @@
             if(monthlyCost < 1){
                 $(`.monthlyPlanCost`).html(`FREE`);
             } else {
-                console.log(`$${monthlyCost.toFixed(2)}`);
-                $(`.monthlyPlanCost`).html(`$${monthlyCost}`);
+                $(`.monthlyPlanCost`).html(`&dollar;${monthlyCost.toFixed(2)}`);
             }
 
             $.ajax({
