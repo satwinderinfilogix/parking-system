@@ -1,0 +1,10 @@
+building_name,unit_name,security_code,30_days_cost
+Building 1,Unit 101,Code101,12
+Building 1,Unit 102,Code102,23
+Building 1,Unit 103,Code103,43
+Building 2,Unit 201,Code201,45
+Building 2,Unit 202,Code202,23.5
+Building 2,Unit 203,Code203,23.9
+Building 3,Unit 301,Code301,3
+Building 3,Unit 302,Code302,34
+Building 3,Unit 303,Code303,56

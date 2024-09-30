@@ -102,6 +102,10 @@
                     } else {
                         $('.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
                     }
+
+                    if (response.data) {
+                        $('.plan-container').attr('data-vehicles-history', response.data);
+                    }
                 }
             });
         });

@@ -7,7 +7,16 @@
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0 font-size-18">Units</h4>
-                        <div class="page-title-right">
+                        <div class="page-title-right d-flex align-items-center">
+                            <a href="{{ url('download-units-sample') }}" class="btn btn-primary me-2">Units Sample File</a>
+                            <form id="importForm" action="{{ route('units.import') }}" method="POST" enctype="multipart/form-data" class="me-2">
+                                @csrf
+                                <button type="button" class="btn btn-primary" id="importButton">
+                                    <i data-feather="upload" class="me-2"></i>
+                                    Import Csv
+                                </button>
+                                <input type="file" id="fileInput" name="file" accept=".csv" style="display:none;">
+                            </form>
                             <a href="{{ route('unit.create') }}" class="btn btn-primary">Add New Units</a>
                         </div>
                     </div>
@@ -17,6 +26,15 @@
                 <div class="col-12">
                     <x-error-message :message="session('error')" />
                     <x-success-message :message="session('success')" />
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="row">
                         <div class="col-md-3">
@@ -122,5 +140,20 @@
                 unitsTable.ajax.reload();
             });
         })
+
+        $(document).ready(function() {
+            $('#importButton').on('click', function() {
+                $('#fileInput').click();
+            });
+
+            $('#fileInput').on('change', function(event) {
+                var file = $(this).prop('files')[0];
+                if (file && file.type === 'text/csv') {
+                    $('#importForm').submit();
+                } else {
+                    alert('Please select a valid CSV file.');
+                }
+            });
+        });
     </script>
 @endsection
