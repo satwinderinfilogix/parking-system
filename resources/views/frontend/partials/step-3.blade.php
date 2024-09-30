@@ -1,5 +1,23 @@
 <section>
-    <div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-3">
+                <button class="btn btn-primary" id="preview-old-btn">
+                    Preview Old
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="mb-3">
+                <button class="btn btn-primary" id="add-new-btn">
+                    Add New
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:none;">
         <div class="row">
             <div class="col-lg-6">
                 <div class="mb-3 datepicker-container">

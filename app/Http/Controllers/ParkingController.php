@@ -124,15 +124,21 @@ class ParkingController extends Controller
                     ->where('plan', '3days')
                     ->whereBetween('created_at', [$dateThirtyDaysAgo, $currentDate]) // Ensure it's within the last 30 days
                     ->get();
+
+        $checkVehicle = Parking::where('building_id', $request->building_id)
+                    ->where('unit_id', $request->unit_id)
+                    ->get()->unique('license_plate')->values();
+            
         if ($plan->isEmpty()) {
             return response()->json([
                 'success' => false,
+                'data'    => $checkVehicle
             ]);
         } else {
             return response()->json([
                 'success' => true,
                 'message' => 'Existing 3days parking',
-                'data'    => $plan
+                'data'    => $checkVehicle
             ]);
         }
     }
