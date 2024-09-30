@@ -26,35 +26,37 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Edit {{ $units->name }}</h4>
                             <form action="{{ route('unit.update',$units->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
-                                <div class="row m-4">
-                                    <div class="col-lg-6">
-                                        <label for="basicpill-building">Building</label>
-                                        <select class="form-control select2" name="building_id" required>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-2">
+                                        <label for="building">Building</label>
+                                        <select @class(["form-control select2", 'is-invalid' => $errors->has('building')]) name="building" id="building" required>
                                             <option>Select</option>
                                             @foreach ($buildings as $item)
-                                                <option value="{{ $item->id }}" @selected($units->building_id == $item->id)>{{ $item->name }}</option>
+                                                <option value="{{ $item->id }}" @selected(old('building', $units->building_id) == $item->id)>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('building_id')
+                                        @error('building')
                                             <span class="text-danger">
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-2">
                                         <x-form-input name="unit_number" value="{{ $units->unit_number }}" label="Unit Number" placeholder="Enter Unit Number"/>
                                     </div>
                                 </div>
-                                <div class="row m-4">
-                                    <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-2">
                                         <x-form-input name="security_code" value="{{ $units->security_code }}" label="Security Code" placeholder="Enter Security Code"/>
                                     </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <x-form-input name="30_days_cost" value="{{ $units['30_days_cost'] }}" label="30 Days Cost" placeholder="Enter Security Code"/>
+                                    </div>
                                 </div>
-                                <div class="row m-4">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <button type="submit" class="btn btn-primary w-md">Submit</button>
                                     </div>

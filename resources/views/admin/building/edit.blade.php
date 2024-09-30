@@ -26,11 +26,10 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Edit {{$building->name}}</h4>
                             <form action="{{ route('building.update',$building->id) }}" method="post">
                                 @csrf
                                 @method('PUT')
-                                <div class="row m-4">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="basicpill-building-input">Building name</label>

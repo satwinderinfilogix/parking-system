@@ -26,36 +26,38 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Add a unit</h4>
                             <form action="{{ route('unit.store') }}" method="post">
                                 @csrf
-                                <div class="row m-4">
-                                    <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-2">
                                         <label for="basicpill-building">Building</label>
-                                        <select class="form-control select2" name="building_id">
+                                        <select @class(["form-control select2", 'is-invalid' => $errors->has('building')]) name="building">
                                             <option value="" disabled selected>Select Building</option>
                                             @foreach ($buildings as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option value="{{ $item->id }}" @selected(old('building') == $item->id)>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('building_id')
+                                        @error('building')
                                             <span class="text-danger">
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 mb-2">
                                         <x-form-input name="unit_number" value="{{ old('unit_number') }}" label="Unit Number" placeholder="Enter Unit Number"/>
                                     </div>
                                 </div>
-                                <div class="row m-4">
-                                    <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-2">
                                         <x-form-input name="security_code" value="{{ old('security_code') }}" label="Security Code" placeholder="Enter Security Code"/>
                                     </div>
+                                    <div class="col-lg-6 mb-2">
+                                        <x-form-input name="30_days_cost" value="{{ old('30_days_cost') }}" label="30 Days Cost" placeholder="Enter 30 Days Cost"/>
+                                    </div>
                                 </div>
-                                <div class="row m-4">
+                                <div class="row">
                                     <div class="col-lg-6">
-                                        <button type="submit" class="btn btn-primary w-md">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
                             </form>    

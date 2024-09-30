@@ -44,7 +44,7 @@ $(function() {
 
                     if (building && unit && securityCode) {
                         const selectedUnitOption = $currentForm.find("#unitSelect option:selected");
-                        const expectedCode = selectedUnitOption.data('password'); // Correctly retrieve the data-password attribute
+                        const expectedCode = selectedUnitOption.data('password').toString(); // Correctly retrieve the data-password attribute
                         if (securityCode !== expectedCode) {
                             valid = false;
                             alert("Invalid security code. Please try again.");

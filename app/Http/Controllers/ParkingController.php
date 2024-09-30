@@ -90,21 +90,21 @@ class ParkingController extends Controller
     public function create(Request $request)
     {
         $parkingDetail = Parking::create([
-            'building_id' => $request->building_id,
-            'unit_id'     => $request->unit_id,
-            'plan'        => $request->plan,
-            'start_date'  => $request->startDate,
-            'car_brand'   => $request->brand,
-            'model'       => $request->model,
-            'color'       => $request->color,
-            'license_plate'=> $request->licensePlate,
-            'email'        => $request->email,
+            'building_id'   => $request->building_id,
+            'unit_id'       => $request->unit_id,
+            'plan'          => $request->plan,
+            'start_date'    => $request->startDate,
+            'car_brand'     => $request->brand,
+            'model'         => $request->model,
+            'color'         => $request->color,
+            'license_plate' => $request->licensePlate,
+            'email'         => $request->email,
             'phone_number'  => $request->phone_number
         ]);
 
         if($request->email) {
             $parking = route('booked-parking', $parkingDetail->id);
-            Mail::to($request->email)->send(new ParkingEmail($parking));
+            //Mail::to($request->email)->send(new ParkingEmail($parking));
         }
 
         return response()->json([

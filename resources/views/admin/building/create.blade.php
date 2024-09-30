@@ -26,10 +26,9 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Add a building</h4>
                             <form action="{{ route('building.store') }}" method="post">
                                 @csrf
-                                <div class="row m-4">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="basicpill-building-input">Building name</label>

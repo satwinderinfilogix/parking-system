@@ -80,19 +80,21 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'building_id'   => 'required',
+            'building'   => 'required',
             'unit_number'   => 'required',
-            'security_code' => 'required'
+            'security_code' => 'required',
+            '30_days_cost' => 'required'
         ]);
 
-        $exist = Unit::where('building_id', $request->building_id)->where('unit_number', $request->unit_number)->first();
+        $exist = Unit::where('building_id', $request->building)->where('unit_number', $request->unit_number)->first();
         if ($exist) {
             return redirect()->route('unit.create')->with('error', 'Unit already exist');
         } else {
-            $unit = Unit::create([
-                "building_id" => $request->building_id,
+            Unit::create([
+                "building_id" => $request->building,
                 "unit_number" => $request->unit_number,
                 "security_code" => $request->security_code,
+                "30_days_cost" => $request->input('30_days_cost'),
             ]);
             return redirect()->route('unit.index')->with('success', 'Unit created successfully');
         }
@@ -122,17 +124,19 @@ class UnitController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'building_id'   => 'required',
+            'building'   => 'required',
             'unit_number'   => 'required',
-            'security_code' => 'required'
+            'security_code' => 'required',
+            '30_days_cost' => 'required'
         ]);
 
-        $unit = Unit::where('id', $id)->update([
-            "building_id" => $request->building_id,
+        Unit::where('id', $id)->update([
+            "building_id" => $request->building,
             "unit_number" => $request->unit_number,
             "security_code" => $request->security_code,
+            "30_days_cost" => $request->input('30_days_cost'),
         ]);
-        return redirect()->route('unit.edit', $id)->with('success', 'Unit updated successfully');
+        return redirect()->route('unit.index', $id)->with('success', 'Unit updated successfully');
     }
 
     /**
