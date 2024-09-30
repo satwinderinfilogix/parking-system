@@ -19,7 +19,7 @@ class UnitController extends Controller
 
     public function getUnits(Request $request)
     {
-        $columns = ['units.id', 'units.building_id', 'buildings.name AS building', 'units.unit_number', 'units.security_code'];
+        $columns = ['units.id', 'units.building_id', 'buildings.name AS building', 'units.unit_number', 'units.security_code', 'units.30_days_cost'];
 
         $query = Unit::select($columns)
             ->join('buildings', 'units.building_id', '=', 'buildings.id') // Adjust this line to match your foreign key relationship
