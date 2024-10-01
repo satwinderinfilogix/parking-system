@@ -1,4 +1,45 @@
 $(function() {
+    function submitParkingForm(){
+        const formData = {
+            building_id: $("#buildingSelect").val(),
+            unit_id: $("#unitSelect").val(),
+            securityCode: $("#securityCode").val(),
+            plan: $('[name="selected_plan"]').val(),
+            startDate: $("#start-date").val(),
+            brand: $("#brand").val(),
+            model: $("#model").val(),
+            color: $("#color").val(),
+            licensePlate: $("#license-plate").val(),
+            confirmationMethod: $("#confirmation-method").val(),
+            email: $("#email").val(),
+            phone_number : $("#phone").val(),
+            transaction_id : $("#transaction_id").val()
+        };
+
+        $('#processing').css('display', 'flex');
+
+        $.ajax({
+            url: '/api/create-parking',
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            success: function(response) {
+                if(response.success === true) {
+                    $('#processing i').attr('class','mdi mdi-check-all fs-1 text-success');
+                    $('#processing p').html('Form has been submitted successfully! Please reload the page to book a new parking...');
+                    window.location = `parking-booked/${response.parkingId}`;
+                } else {
+                    $('#processing').css('display', 'none');
+                    alert('Something went wrong!')
+                }
+            }
+        });
+    }
+
     $("#book-parking-form").steps({
         headerTag: "h3",
         bodyTag: "section",
@@ -74,69 +115,59 @@ $(function() {
                     $('.actions').addClass('d-none');
                 }
 
-                /* if(currentIndex===3){
-                    if($('#agreeTerms:checked').length > 0){
-                        valid = true;
-                        $('[href="#finish"]').parent().removeClass('disabled');
+                if(newIndex===3){
+                    if($('#selected_plan').val()==='30days' && parseFloat($('#30_days_cost').val()) > 0){
+                        $('.actions').addClass('d-none');
+                        $('.proceed-payment-btn').removeClass('d-none');
                     } else {
-                        valid = false;
-                        $('[href="#finish"]').parent().addClass('disabled');
+                        $('.actions').removeClass('d-none');
+                        $('.proceed-payment-btn').addClass('d-none');
                     }
-                } */
-                
+                }
+
                 return valid; // Proceed if valid
             }
             
             return true; // Allow moving backward without validation
         },
         onFinished: function(event, currentIndex) {
-            /* if(currentIndex===3){
-                if($('#agreeTerms:checked').length > 0){
-                    $('[href="#finish"]').parent().removeClass('disabled');
-                } else {
-                    $('[href="#finish"]').parent().addClass('disabled');
-                    return false;
-                }
-            } */
-
-            const formData = {
-                building_id: $("#buildingSelect").val(),
-                unit_id: $("#unitSelect").val(),
-                securityCode: $("#securityCode").val(),
-                plan: $('[name="selected_plan"]').val(),
-                startDate: $("#start-date").val(),
-                brand: $("#brand").val(),
-                model: $("#model").val(),
-                color: $("#color").val(),
-                licensePlate: $("#license-plate").val(),
-                confirmationMethod: $("#confirmation-method").val(),
-                email: $("#email").val(),
-                phone_number : $("#phone").val()
-            };
-
-            $('#processing').css('display', 'flex');
-
-            $.ajax({
-                url: '/api/create-parking',
-                type: 'POST',
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: JSON.stringify(formData),
-                dataType: 'json',
-                success: function(response) {
-                    if(response.success == true) {
-                        $('#processing i').attr('class','mdi mdi-check-all fs-1 text-success');
-                        $('#processing p').html('Form has been submitted successfully! Please reload the page to book a new parking...');
-                        window.location = `parking-booked/${response.parkingId}`;
-                    } else {
-                        $('#processing').css('display', 'none');
-                        alert('Something went wrong!')
-                    }
-                }
-            });
+           submitParkingForm();
         }
+    });
+    
+    $('#make-payment').on('click', function() {
+        stripe.createToken(cardElement).then(function(result) {
+            if (result.error) {
+                $('#card-errors').text(result.error.message);
+            } else {
+                $('#make-payment').attr('disabled', 'disabled');
+
+                $.ajax({
+                    url: `/api/process-payment`,
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        stripeToken: result.token.id,
+                        amount: $('#30_days_cost').val(),
+                    },
+                    success: function(response) {
+                        $('#make-payment').removeAttr('disabled');
+
+                        if(response.success){
+                            $('#transaction_id').val(response.transaction_id);
+                            submitParkingForm();
+                        } else {
+                            alert('Failed to make payment!')
+                        }
+                    },
+                    error: function(xhr) {
+                        var response = xhr.responseJSON;
+                        $('#make-payment').removeAttr('disabled');
+                        alert(response.message);
+                    }
+                });
+            }
+        });
     });
 
     $('[aria-label="Pagination"] li:last a').html('Confirm')

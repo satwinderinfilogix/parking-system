@@ -13,6 +13,7 @@
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
     <link href="{{ asset('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body data-sidebar="dark">

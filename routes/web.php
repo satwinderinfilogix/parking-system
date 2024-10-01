@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\UnitController;

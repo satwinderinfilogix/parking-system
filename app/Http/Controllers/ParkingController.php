@@ -7,14 +7,49 @@ use App\Models\Parking;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ParkingEmail;
 use App\Models\Building;
+use Stripe\Stripe;
+use Stripe\Charge;
 
 class ParkingController extends Controller
 {
     public function index()
     {
         $parkings = Parking::with('building', 'unit')->latest()->get();
-
         return view('admin.parking.index', compact('parkings'));
+    }
+
+    public function stripeForm(){
+        return view('stripe');
+    }
+    public function processPayment(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric',
+            'stripeToken' => 'required',
+        ]);
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        try {
+            // Charge the user's card
+            $charge = Charge::create([
+                'amount' => $request->amount * 100, // Amount in cents
+                'currency' => 'usd',
+                'description' => 'Payment for guest user',
+                'source' => $request->stripeToken,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment successful!',
+                'transaction_id' => $charge->id,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        }
     }
 
     public function getParking(Request $request)
@@ -99,7 +134,8 @@ class ParkingController extends Controller
             'color'         => $request->color,
             'license_plate' => $request->licensePlate,
             'email'         => $request->email,
-            'phone_number'  => $request->phone_number
+            'phone_number'  => $request->phone_number,
+            'transaction_id'  => $request->transaction_id
         ]);
 
         if($request->email) {

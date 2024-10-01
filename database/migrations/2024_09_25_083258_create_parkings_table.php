@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('color');
             $table->string('license_plate');
             $table->string('email')->nullable();
-            $table->integer('phone_number')->nullable();
+            $table->string('phone_number', 25)->nullable();
             $table->integer('otp')->nullable();
             $table->string('transaction_id')->nullable();
 

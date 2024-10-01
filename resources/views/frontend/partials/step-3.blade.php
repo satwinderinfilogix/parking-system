@@ -91,7 +91,7 @@
             <div class="col-lg-6" id="phone-input" style="display: none;">
                 <div class="mb-3">
                     <label for="phone">Phone Number</label>
-                    <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number" required>
+                    <input type="number" class="form-control" id="phone" placeholder="Enter Phone Number" required>
                     <span class="invalid-feedback">Please enter a valid phone number.</span>
                 </div>
             </div>
@@ -156,7 +156,7 @@
         $(document).on('click', '.use-vehicle', function(event) {
             const vehicleData = $(this).parents('[data-vehicle]').attr('data-vehicle');
             const vehicle = JSON.parse(decodeURIComponent(vehicleData));
-
+            
             $('#brand').val(vehicle.car_brand);
             $('#model').val(vehicle.model);
             $('#color').val(vehicle.color);
