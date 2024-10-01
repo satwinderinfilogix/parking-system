@@ -1,7 +1,7 @@
 <section>
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="terms-and-conditionsc-container">
+            <div class="terms-and-conditions">
                 <h4 class="text-center">Terms and Conditions for Guest Parking</h4>
                 <p class="text-center">By submitting this form, you agree to the following terms and conditions:</p>
                 <ol class="fs-5">
@@ -97,7 +97,7 @@
     });
 
     $('.continue-payment').click(function() {
-        $('.terms-and-conditionsc-container').addClass('d-none');
+        $('.terms-and-conditions').addClass('d-none');
         $('.payment-section').removeClass('d-none');
     })
 </script>

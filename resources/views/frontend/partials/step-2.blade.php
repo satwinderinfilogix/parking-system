@@ -29,16 +29,21 @@
 
 
 <script>
-    $(function(){
+    $(function() {
         $(document).on('click', '.plan-container:not(.bg-dark-subtle)', function() {
             $('[name="selected_plan"]').val($(this).attr('data-plan'));
+
+            $('.actions').removeClass('d-none');
+            $('.proceed-payment-btn').addClass('d-none');
+            $('.payment-section').addClass('d-none');
+            $('.terms-and-conditions').removeClass('d-none');
 
             $('.plan-container').removeClass('bg-primary text-white').addClass('bg-primary-subtle');
             $(this).toggleClass('bg-primary-subtle bg-primary text-white');
             $('.actions').removeClass('d-none');
         });
 
-        $('.first').click(function(){
+        $('.first').click(function() {
             $('.actions').removeClass('d-none');
         })
     })

@@ -122,6 +122,8 @@ $(function() {
                     } else {
                         $('.actions').removeClass('d-none');
                         $('.proceed-payment-btn').addClass('d-none');
+                        $('.payment-section').addClass('d-none');
+                        $('.terms-and-conditions').removeClass('d-none');
                     }
                 }
 
