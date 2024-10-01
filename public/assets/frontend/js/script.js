@@ -115,7 +115,7 @@ $(function() {
                     $('.actions').addClass('d-none');
                 }
 
-                if(newIndex===3){
+                if(newIndex===3 && valid){
                     if($('#selected_plan').val()==='30days' && parseFloat($('#30_days_cost').val()) > 0){
                         $('.actions').addClass('d-none');
                         $('.proceed-payment-btn').removeClass('d-none');
