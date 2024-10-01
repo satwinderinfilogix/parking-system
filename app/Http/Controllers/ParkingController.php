@@ -18,9 +18,6 @@ class ParkingController extends Controller
         return view('admin.parking.index', compact('parkings'));
     }
 
-    public function stripeForm(){
-        return view('stripe');
-    }
     public function processPayment(Request $request)
     {
         $request->validate([
@@ -182,6 +179,9 @@ class ParkingController extends Controller
     public function showBookedParking($parkingId){
         $parking = Parking::with('building', 'unit')->find($parkingId);
 
+        if(!$parking){
+            abort(404);
+        }
         return view('frontend.invoice', compact('parking'));
     }
 

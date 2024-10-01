@@ -56,6 +56,12 @@
 
                                         </div>
 
+                                        @if($parking->transaction_id)
+                                        <div class="mt-3">
+                                            <p class="fs-5">Transaction ID: {{ $parking->transaction_id }}</p>
+                                        </div>
+                                        @endif
+
                                         <div class="py-2 mt-3">
                                             <h3 class="fs-3 fw-bold">Vehicle Details</h3>
                                         </div>
