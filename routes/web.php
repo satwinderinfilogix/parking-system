@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\QRCodeController;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', [FrontendController::class, 'index']);
 
@@ -42,3 +43,11 @@ Route::get('download-units-sample', function() {
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
 Route::get('/units/data', [UnitController::class, 'getUnits']);
 Route::get('/parkings/data', [ParkingController::class, 'getParking']);
+
+Route::get('/test-email', function () {
+    Mail::raw('This is a test email.', function ($message) {
+        $message->to('nitika.ltr@gmail.com')->subject('Test Email');
+    });
+
+    return 'Email successfully sent!';
+});

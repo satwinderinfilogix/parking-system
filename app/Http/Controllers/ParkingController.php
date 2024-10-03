@@ -136,8 +136,8 @@ class ParkingController extends Controller
         ]);
 
         if($request->email) {
-            $parking = route('booked-parking', $parkingDetail->id);
-            //Mail::to($request->email)->send(new ParkingEmail($parking));
+            //$parking = route('booked-parking', $parkingDetail->id);
+            Mail::to($request->email)->send(new ParkingEmail($parkingDetail));
         }
 
         return response()->json([
