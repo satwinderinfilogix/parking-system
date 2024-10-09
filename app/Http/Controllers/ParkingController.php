@@ -18,6 +18,18 @@ class ParkingController extends Controller
         return view('admin.parking.index', compact('parkings'));
     }
 
+    public function reset(){
+        $parkings = Parking::where('plan', '3days');
+        $parkingsCount = $parkings->count();
+        $parkings->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => '3 days parkings reset successfully!',
+            'resetParkingsCount' => $parkingsCount,
+        ]);
+    }
+
     public function processPayment(Request $request)
     {
         $request->validate([

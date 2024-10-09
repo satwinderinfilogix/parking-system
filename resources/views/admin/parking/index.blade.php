@@ -56,7 +56,10 @@
                     }
                 },
                 columns: [{
-                        data: 'id'
+                    data: null,
+                        render: function(data, type, row) {
+                            return `<a href="/parking-booked/${row.id}" target="blank">${row.id}</a>`;
+                        }
                     },
                     {
                         data: null,
@@ -87,12 +90,13 @@
                         name: 'actions',
                         orderable: false,
                         render: function(data, type, row) {
-                            let editUrl = `{{ route('parking.edit', ':id') }}`.replace(':id', row
-                                .id);
+                            let invoiceUrl = `{{ route('booked-parking', ':id') }}`.replace(':id', row.id);
+                            let editUrl = `{{ route('parking.edit', ':id') }}`.replace(':id', row.id);
                             let deleteUrl = `{{ route('parking.destroy', ':id') }}`.replace(
                                 ':id', row.id);
 
                             return `
+                                <button data-path="${invoiceUrl}" class="btn btn-primary printButton">Print</button>
                                 <a href="${editUrl}" class="btn btn-primary">Edit</a>
                                 <form action="${deleteUrl}" method="POST" style="display:inline;">
                                     @csrf
@@ -111,6 +115,27 @@
                 const buildingId = $(this).val();
                 unitsTable.ajax.reload();
             });
+
+            $(document).on('click', '.printButton', function() {
+                let invoiceUrl = $(this).data('path');
+
+                // Create an iframe to load the content
+                let $iframe = $('<iframe>', {
+                    src: invoiceUrl,
+                    style: 'display:none;'
+                }).on('load', function() {
+                    console.log(this)
+                    this.contentWindow.print();
+                    //$(this).remove(); // Clean up the iframe after printing
+                });
+
+                console.log('iframe', $iframe); // For debugging
+
+                // Append the iframe to the body
+                $('body').append($iframe);
+            });
+
+
         })
     </script>
 @endsection

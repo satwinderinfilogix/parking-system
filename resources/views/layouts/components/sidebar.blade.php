@@ -16,20 +16,26 @@
                 </li> --}}
                 <li @class(['mm-active' => Request::is(['building','building/create','building/*/edit'])])>
                     <a href="{{ route('building.index') }}" class="waves-effect">
-                        <i class="bx bx-building-house"></i>
-                        <span key="t-building-house">Manage Building</span>
+                        <i class="bx bx-building"></i>
+                        <span>Manage Building</span>
                     </a>
                 </li>
                 <li @class(['mm-active' => Request::is(['unit','unit/create','unit/*/edit'])])>
                     <a href="{{ route('unit.index') }}" class="waves-effect">
-                        <i class="bx bx-building-house"></i>
-                        <span key="t-building-house">Manage Units</span>
+                        <i class="bx bx-buildings"></i>
+                        <span>Manage Units</span>
                     </a>
                 </li>
-                <li @class(['mm-active' => Request::is(['parking'])])>
+                <li @class(['mm-active' => Request::is(['parkings'])])>
                     <a href="{{ route('parking.index') }}" class="waves-effect">
                         <i class="bx bx-building-house"></i>
-                        <span key="t-building-house">Manage Parking</span>
+                        <span>Manage Parkings</span>
+                    </a>
+                </li>
+                <li @class(['mm-active' => Request::is(['settings'])])>
+                    <a href="{{ route('settings') }}" class="waves-effect">
+                        <i class="bx bx-cog"></i>
+                        <span>Settings</span>
                     </a>
                 </li>
             </ul>

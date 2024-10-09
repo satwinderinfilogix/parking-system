@@ -9,6 +9,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\QRCodeController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', [FrontendController::class, 'index']);
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
     ]);
 
     Route::get('/parkings/add', [ParkingController::class, 'addNew'])->name('parking.addNew');
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings');
+
 });
 
 // Import Csv Files 
