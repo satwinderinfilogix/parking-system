@@ -19,6 +19,7 @@ Route::post('authenticate', [AuthController::class, 'authenticate'])->name('auth
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/parking-booked/{parkingId}', [ParkingController::class, 'showBookedParking'])->name('booked-parking');
 Route::get('/qrcode/{parkingId}', [QRCodeController::class, 'generate'])->name('generate-qrcode');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 
 Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::resources([

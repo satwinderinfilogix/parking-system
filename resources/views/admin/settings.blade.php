@@ -16,12 +16,33 @@
                     <button class="btn btn-danger" id="resetParkingButton">Reset 3 days parkings</button>
                 </div>
             </div>
+
+            <x-success-message :message="session('success')" />
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <form action="{{ route('password.reset') }}" method="post">
+                        @csrf
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <x-form-input type="password" name="change_password" label="Change Password"></x-form-input>
+                            </div>
+                            <div class="col-12">
+                                <x-form-input type="password" name="change_password_confirmation" label="Confirm Password"></x-form-input>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary mt-2">Save Password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
     @push('scripts')
         <script>
-            $(function(){
+            $(function() {
                 $('#resetParkingButton').click(function() {
                     Swal.fire({
                         title: 'Are you sure?',
@@ -38,8 +59,8 @@
                             $.ajax({
                                 url: '/api/reset-free-parkings',
                                 method: 'POST',
-                                success:function(response){
-                                    if(response.success){
+                                success: function(response) {
+                                    if (response.success) {
                                         Swal.fire(
                                             'Success!',
                                             `${response.resetParkingsCount} Parkings has been reset!`,

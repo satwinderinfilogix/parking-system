@@ -30,6 +30,19 @@ class AuthController extends Controller
         ]);
     }
 
+    public function resetPassword(Request $request){
+        $request->validate([
+            'change_password' => ['required', 'string', 'confirmed'],
+            'change_password_confirmation' => 'required|string',
+        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->change_password);
+        $user->save();
+
+        return redirect()->back()->with('success','Password reset successfully');
+    }
+
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

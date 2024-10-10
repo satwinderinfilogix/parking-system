@@ -13,15 +13,16 @@
         <input
             type="password" name="{{ $name }}" id="{{ $name }}" value="{{ old($name, $value) }}"
             aria-label="Password" aria-describedby="password-addon"
-            {{ $attributes->merge(['class' => 'form-control']) }}
+            {{ $attributes->merge(['class' => 'form-control'.($errors->has($name) ? ' is-invalid' : '')]) }}
         >
         <button class="btn btn-light" type="button" id="password-addon">
             <i class="mdi mdi-eye-outline"></i>
-        </button><br>
+        </button>
+    </div>
     @endif
 
     @if ($errors->has($name))
-        <span class="invalid-feedback">
+        <span class="invalid-feedback d-block">
             {{ $errors->first($name) }}
         </span>
     @endif
