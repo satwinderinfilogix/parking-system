@@ -9,9 +9,17 @@ use App\Mail\ParkingEmail;
 use App\Models\Building;
 use Stripe\Stripe;
 use Stripe\Charge;
+use App\Services\TwilioService;
 
 class ParkingController extends Controller
 {
+    protected $twilio;
+
+    public function __construct(TwilioService $twilio)
+    {
+        $this->twilio = $twilio;
+    }
+    
     public function index()
     {
         $parkings = Parking::with('building', 'unit')->latest()->get();
@@ -287,4 +295,16 @@ class ParkingController extends Controller
         $parking->delete();
         return redirect()->route('parking.index')->with('success', 'Parking deleted successfully');
     }
+
+    public function sendMessage(Request $request, $phoneNumber){
+        $message = 'Hi, testing message has been sent!';
+
+        try {
+            $this->twilio->sendSms('+1' . $phoneNumber, $message);
+            return response()->json(['status' => 'success', 'message' => 'SMS sent successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => 'Failed to send SMS: ' . $e->getMessage()], 500);
+        }
+    }
+
 }

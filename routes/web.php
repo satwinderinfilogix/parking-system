@@ -54,3 +54,5 @@ Route::get('/test-email', function () {
 
     return 'Email successfully sent!';
 });
+
+Route::get('/test-sms/{phoneNumber}', [ParkingController::class, 'sendMessage']);
