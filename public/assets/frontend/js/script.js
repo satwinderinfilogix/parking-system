@@ -22,9 +22,6 @@ $(function() {
             url: '/api/create-parking',
             type: 'POST',
             contentType: 'application/json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
             data: JSON.stringify(formData),
             dataType: 'json',
             success: function(response) {

@@ -157,7 +157,20 @@ class ParkingController extends Controller
 
         if($request->email) {
             //$parking = route('booked-parking', $parkingDetail->id);
-            Mail::to($request->email)->send(new ParkingEmail($parkingDetail));
+            //Mail::to($request->email)->send(new ParkingEmail($parkingDetail));
+        } 
+        
+        if($request->phone_number){
+            $customerPhoneNumber = '+1'.$request->phone_number;
+            $invoiceUrl = route('booked-parking', $parkingDetail->id);
+            
+            $message = 'Thanks for booking a parking.\n Please visit '.$invoiceUrl.' to download invoice.';
+
+            try {
+                $this->twilio->sendSms($customerPhoneNumber, $message);
+            } catch (\Exception $e) {
+                //return response()->json(['status' => 'error', 'message' => 'Failed to send SMS: ' . $e->getMessage()], 500);
+            }
         }
 
         return response()->json([
@@ -296,7 +309,7 @@ class ParkingController extends Controller
         return redirect()->route('parking.index')->with('success', 'Parking deleted successfully');
     }
 
-    public function sendMessage(Request $request, $phoneNumber){
+    public function sendMessage($phoneNumber){
         $message = 'Hi, testing message has been sent!';
 
         try {
