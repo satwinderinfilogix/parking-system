@@ -47,6 +47,7 @@ Route::get('download-units-sample', function() {
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
 Route::get('/units/data', [UnitController::class, 'getUnits']);
 Route::get('/parkings/data', [ParkingController::class, 'getParking']);
+Route::get('/plans-by-building-id/{building_id}', [BuildingController::class, 'unitByBuildingPlan']);
 
 Route::get('/test-email', function () {
     Mail::raw('This is a test email.', function ($message) {

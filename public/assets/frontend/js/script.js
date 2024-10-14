@@ -113,7 +113,8 @@ $(function() {
                 }
 
                 if(newIndex===3 && valid){
-                    if($('#selected_plan').val()==='30days' && parseFloat($('#30_days_cost').val()) > 0){
+                    if(parseFloat($('#30_days_cost').val()) > 0){
+                        $('.paying-amount').text($('#30_days_cost').val());
                         $('.actions').addClass('d-none');
                         $('.proceed-payment-btn').removeClass('d-none');
                     } else {

@@ -36,6 +36,7 @@
 
             <div class="payment-section d-none">
                 <div>
+                    <label for="card-element"><b>Pay $<span class="paying-amount"></span></b></label><br/>
                     <label for="card-element">Credit or debit card:</label>
                     <div id="card-element"></div>
                     <div id="card-errors" class="text-danger" role="alert"></div>
@@ -99,7 +100,7 @@
     $('.continue-payment').click(function() {
         $('.terms-and-conditions').addClass('d-none');
         $('.payment-section').removeClass('d-none');
-    })
+    });
 </script>
 
 {{-- <script>

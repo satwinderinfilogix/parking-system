@@ -59,6 +59,42 @@
                     }
                 }
             });
+            $.ajax({
+                url: `/plans-by-building-id/${selectedBuilding}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success){
+                        var plans = `<div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="3days" data-price="0">
+                                                    <div class="card-body">
+                                                        <h5>${response.plans.free} Days Parking</h5>
+                                                        <h4>Free</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
+
+                            var plansList = response.plans.parkings;
+                            $.each(plansList, function(key,val) { 
+                                var getPrice = parseFloat(val.price).toFixed(2);
+                                
+                                plans += `<div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="${val.days}days" data-price="${val.price}">
+                                                    <div class="card-body">
+                                                        <h5>${val.days} Days Parking</h5>
+                                                        <h4><span>$</span>${getPrice}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;    
+                            });
+                            $('#plans-list').html(plans);
+                    }
+                }
+            });
             // Populate units based on the selected building
             /* if (units[selectedBuilding]) {
                 units[selectedBuilding].forEach(unit => {

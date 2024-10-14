@@ -1,6 +1,6 @@
 <section>
-    <div class="row">
-        <div class="col-lg-6">
+    <div class="row" id="plans-list">
+        {{--<div class="col-lg-6">
             <div class="mb-3">
                 <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="3days">
                     <div class="card-body">
@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
 
     <input type="hidden" name="selected_plan" id="selected_plan">
@@ -32,7 +32,7 @@
     $(function() {
         $(document).on('click', '.plan-container:not(.bg-dark-subtle)', function() {
             $('[name="selected_plan"]').val($(this).attr('data-plan'));
-
+            $('[name="30_days_cost"]').val($(this).attr('data-price'));
             $('.actions').removeClass('d-none');
             $('.proceed-payment-btn').addClass('d-none');
             $('.payment-section').addClass('d-none');
