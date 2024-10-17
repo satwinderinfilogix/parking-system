@@ -25,12 +25,12 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <a href="#" class="logo logo-light">
+                            <a href="#" class="logo logo-light form-logo">
                                 <span class="logo-sm">
                                     <img src="{{ asset('assets/images/site-logo.png') }}" alt="" height="22">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets/images/site-logo.png') }}" class="bg-white w-75" alt="" height="50">
+                                    <img src="{{ asset('assets/images/site-logo.png') }}" class="bg-white w-75 form-logo" alt="" height="50">
                                 </span>
                             </a>
                             <h4 class="mb-sm-0 font-size-18 text-center">Book Parking</h4>

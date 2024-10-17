@@ -49,13 +49,13 @@ td.disabled.day {
     100% { transform: rotate(360deg); }
 }
 
-.w-75 {
+.form-logo.w-75 {
     width: 15% !important;
     height: 100px;
 }
 .page-title-box {
     text-align: center;
 }
-a.logo.logo-light {
+a.logo.logo-light.form-logo {
     margin-bottom: 15px;
 }
