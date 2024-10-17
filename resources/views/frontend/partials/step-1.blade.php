@@ -21,11 +21,7 @@
             gap: 10px;
             margin-top: 10px;
         }
-        .left-section {
-            width: 70%;
-        }
         .right-section {
-            width: 30%;
             font-size: 16px;
             font-weight: 500;
         }
@@ -112,11 +108,11 @@
                                             <div class="mb-3">
                                                 <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="per_day_plan" data-price="0" data-days="${response.plans.free}">
                                                     <div class="card-body per-day-card">
-                                                        <div class="left-section">
+                                                        <div class="col-md-8 left-section">
                                                             <span>$</span>${response.plans.per_day} Per Day (minimum <span>$</span>${response.plans.minimum_cost})<br/>
                                                             <div class="inner-day">Enter number of days <input type="number" name="number_of_days" class="form-control number-days" placeholder="0"></div><br/>
                                                         </div>
-                                                        <div class="right-section">
+                                                        <div class="col-md-4 right-section text-end">
                                                             Total : $<span class="total-cost">0</span>
                                                         </div>
                                                     </div>
