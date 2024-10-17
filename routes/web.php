@@ -31,6 +31,8 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
 
     Route::get('/parkings/add', [ParkingController::class, 'addNew'])->name('parking.addNew');
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
+    Route::get('/edit-privacy-policy', [SettingController::class, 'viewPrivacyPolicy'])->name('view.privacy.policy');
+    Route::post('/update-privacy-policy', [SettingController::class, 'updatePrivacyPolicy'])->name('update.privacy.policy');
 
 });
 
@@ -47,14 +49,21 @@ Route::get('download-units-sample', function() {
 Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitByBuilding']);
 Route::get('/units/data', [UnitController::class, 'getUnits']);
 Route::get('/parkings/data', [ParkingController::class, 'getParking']);
+Route::get('/privacy-policy', [SettingController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/plans-by-building-id/{building_id}', [BuildingController::class, 'unitByBuildingPlan']);
 
 Route::get('/test-email', function () {
-    Mail::raw('This is a test email.', function ($message) {
-        $message->to('nitika.ltr@gmail.com')->subject('Test Email');
-    });
+    ini_set('max_execution_time', 120); // Set timeout to 120 seconds
 
-    return 'Email successfully sent!';
+    try {
+        Mail::raw('This is a test email processs.', function ($message) {
+            $message->to('nitika.ltr@gmail.com')->subject('Test Email');
+        });
+
+        return 'Email successfully sent!';
+    } catch (\Exception $e) {
+        return 'Email sending failed: ' . $e->getMessage();
+    }
 });
 
 Route::get('/test-sms/{phoneNumber}', [ParkingController::class, 'sendMessage']);

@@ -57,6 +57,16 @@
                                                                value="{{ $building->every ?? '' }}" class="form-control">
                                                     </div>
                                                 </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-3">
+                                                        <label for="per-day">Per Day Cost</label>
+                                                        <input type="number" id="per-day" name="per_day" value="{{ $building->per_day ?? '' }}" class="form-control" step="0.1" min="0" required>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="minimum-cost">Minimum Cost</label>
+                                                        <input type="number" id="minimum-cost" name="minimum_cost" value="{{ $building->minimum_cost ?? '' }}" class="form-control" step="0.1" min="0" required>
+                                                    </div>
+                                                </div>
                                                 
                                                 <!-- Periods Section -->
                                                 <div id="periods">

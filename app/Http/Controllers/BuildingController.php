@@ -35,6 +35,8 @@ class BuildingController extends Controller
             "name" => $request->name,
             "free" => $request->free_days,
             "every" => $request->every_days,
+            "per_day" => $request->per_day,
+            "minimum_cost" => $request->minimum_cost,
         ]);
 
         if(isset($request->periods)){
@@ -78,6 +80,8 @@ class BuildingController extends Controller
             "name" => $request->name,
             "free" => $request->free_days,
             "every" => $request->every_days,
+            "per_day" => $request->per_day,
+            "minimum_cost" => $request->minimum_cost,
         ]);
 
         if (isset($request->periods)) {

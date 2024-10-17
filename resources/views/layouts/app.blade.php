@@ -27,6 +27,8 @@
     <link href="{{ asset('assets/frontend/css/style.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugin.js') }}"></script>
+    <script src="{{ asset('assets/js/ckeditor.js') }}"></script>
+
 </head>
 
 <body data-sidebar="dark">

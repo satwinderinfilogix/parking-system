@@ -55,7 +55,7 @@
                     <label for="color">Color</label>
                     <input type="text" class="form-control" id="color" placeholder="Enter Vehicle Color"
                         required>
-                    <span class="invalid-feedback">Please enter a valid model number.</span>
+                    <span class="invalid-feedback">Please enter a color.</span>
                 </div>
             </div>
         </div>
@@ -94,6 +94,13 @@
                     <input type="number" class="form-control" id="phone" placeholder="Enter Phone Number" required>
                     <span class="invalid-feedback">Please enter a valid phone number.</span>
                 </div>
+                @if(isset($disclaimer))
+                <div class="mb-3">
+                    <p>
+                        <b>Disclaimer:</b> {!! $disclaimer !!}
+                    </p>
+                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -48,3 +48,14 @@ td.disabled.day {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.w-75 {
+    width: 15% !important;
+    height: 100px;
+}
+.page-title-box {
+    text-align: center;
+}
+a.logo.logo-light {
+    margin-bottom: 15px;
+}

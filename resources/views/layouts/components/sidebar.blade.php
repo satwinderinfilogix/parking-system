@@ -17,7 +17,7 @@
                 <li @class(['mm-active' => Request::is(['building','building/create','building/*/edit'])])>
                     <a href="{{ route('building.index') }}" class="waves-effect">
                         <i class="bx bx-building"></i>
-                        <span>Manage Building</span>
+                        <span>Manage Buildings</span>
                     </a>
                 </li>
                 <li @class(['mm-active' => Request::is(['unit','unit/create','unit/*/edit'])])>
@@ -32,11 +32,16 @@
                         <span>Manage Parkings</span>
                     </a>
                 </li>
-                <li @class(['mm-active' => Request::is(['settings'])])>
-                    <a href="{{ route('settings') }}" class="waves-effect">
+
+                <li @class(['mm-active' => Request::is(['settings','view.privacy.policy'])])>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                         <i class="bx bx-cog"></i>
                         <span>Settings</span>
                     </a>
+                    <ul class="sub-menu mm-collapse mm-show" aria-expanded="false" style="">
+                        <li @class(['mm-active' => Request::is(['settings'])])><a href="{{ route('settings') }}" key="t-default">Change Password</a></li>
+                        <li @class(['mm-active' => Request::is(['view.privacy.policy'])])><a href="{{ route('view.privacy.policy') }}" key="t-saas">Privacy Policy</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

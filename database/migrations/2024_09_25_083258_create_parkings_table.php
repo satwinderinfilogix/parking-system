@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('building_id');
             $table->unsignedBigInteger('unit_id');
             $table->string('plan');
+            $table->float('amount')->nullable();
             $table->date('start_date');
+            $table->date('end_date');
             $table->string('car_brand');
             $table->string('model');
             $table->string('color');

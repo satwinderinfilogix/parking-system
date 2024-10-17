@@ -5,6 +5,8 @@ $(function() {
             unit_id: $("#unitSelect").val(),
             securityCode: $("#securityCode").val(),
             plan: $('[name="selected_plan"]').val(),
+            amount: $('[name="30_days_cost"]').val(),
+            total_days: $('[name="total_days"]').val(),
             startDate: $("#start-date").val(),
             brand: $("#brand").val(),
             model: $("#model").val(),

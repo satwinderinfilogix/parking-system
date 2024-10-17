@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('free')->nullable();
             $table->string('every')->nullable();
+            $table->float('per_day')->nullable();
+            $table->float('minimum_cost')->nullable();
             $table->timestamps();
         });
     }

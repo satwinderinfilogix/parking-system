@@ -7,9 +7,11 @@ use App\Models\Parking;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ParkingEmail;
 use App\Models\Building;
+use App\Models\PrivacyPolicy;
 use Stripe\Stripe;
 use Stripe\Charge;
 use App\Services\TwilioService;
+use Carbon\Carbon;
 
 class ParkingController extends Controller
 {
@@ -23,6 +25,7 @@ class ParkingController extends Controller
     public function index()
     {
         $parkings = Parking::with('building', 'unit')->latest()->get();
+
         return view('admin.parking.index', compact('parkings'));
     }
 
@@ -77,7 +80,9 @@ class ParkingController extends Controller
             'buildings.name AS building',   // Building Name
             'units.unit_number',             // Unit Number
             'parkings.plan',                 // Plan
+            'parkings.amount',                 // amount
             'parkings.start_date',           // Start Date
+            'parkings.end_date',           // Start Date
             'parkings.license_plate',        // License Plate
             'parkings.email',                // Email
             'parkings.phone_number'          // Phone Number
@@ -141,11 +146,16 @@ class ParkingController extends Controller
 
     public function create(Request $request)
     {
+        
+        $endDate = Carbon::parse($request->startDate)->addDays((int)$request->total_days);
+
         $parkingDetail = Parking::create([
             'building_id'   => $request->building_id,
             'unit_id'       => $request->unit_id,
             'plan'          => $request->plan,
+            'amount'        => $request->amount,
             'start_date'    => $request->startDate,
+            'end_date'      => $endDate,
             'car_brand'     => $request->brand,
             'model'         => $request->model,
             'color'         => $request->color,
@@ -156,9 +166,9 @@ class ParkingController extends Controller
         ]);
 
         if($request->email) {
-            //$parking = route('booked-parking', $parkingDetail->id);
-            //Mail::to($request->email)->send(new ParkingEmail($parkingDetail));
-        } 
+            $parking = route('booked-parking', $parkingDetail->id);
+            Mail::to($request->email)->send(new ParkingEmail($parkingDetail));
+        }
         
         if($request->phone_number){
             $customerPhoneNumber = '+1'.$request->phone_number;
@@ -187,7 +197,7 @@ class ParkingController extends Controller
         $dateThirtyDaysAgo = now()->subDays(30);
         $plan = Parking::where('building_id', $request->building_id)
                     ->where('unit_id', $request->unit_id)
-                    ->where('plan', '3days')
+                    //->where('plan', '3days')
                     ->whereBetween('created_at', [$dateThirtyDaysAgo, $currentDate]) // Ensure it's within the last 30 days
                     ->get();
 

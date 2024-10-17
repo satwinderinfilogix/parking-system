@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('building_parkings', function (Blueprint $table) {
+        Schema::create('privacy_policy', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('building_id')->nullable();
-            $table->string('days')->nullable();
-            $table->float('price')->nullable();
+            $table->longText('content')->nullable(); 
+            $table->text('disclaimer')->nullable(); 
             $table->timestamps();
-
-            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('building_parkings');
+        Schema::dropIfExists('privacy_policy');
     }
 };

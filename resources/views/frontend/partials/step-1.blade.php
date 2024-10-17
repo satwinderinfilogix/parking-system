@@ -1,4 +1,35 @@
 <section>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input.form-control.number-days {
+            width: 15% !important;
+            -moz-appearance: textfield;
+        }				
+        .card-body.per-day-card {
+            display: flex;
+            padding-bottom: 0px;
+            padding-top: 14px;
+            justify-content: space-between;
+        }
+        .inner-day {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .left-section {
+            width: 70%;
+        }
+        .right-section {
+            width: 30%;
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
     <div class="row">
         <div class="col-lg-6">
             <div class="mb-3">
@@ -65,24 +96,43 @@
                 dataType: 'json',
                 success: function(response) {
                     if(response.success){
-                        var plans = `<div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="3days" data-price="0">
-                                                    <div class="card-body">
-                                                        <h5>${response.plans.free} Days Parking</h5>
-                                                        <h4>Free</h4>
+                        //Free Plan
+                                var plans = `<div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="3days" data-price="0" data-days="${response.plans.free}">
+                                                            <div class="card-body">
+                                                                <h5>${response.plans.free} Days Parking</h5>
+                                                                <h4>Free</h4>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                            </div>`;
+                                //Per Day Plan
+                                plans += `<div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="per_day_plan" data-price="0" data-days="${response.plans.free}">
+                                                    <div class="card-body per-day-card">
+                                                        <div class="left-section">
+                                                            <span>$</span>${response.plans.per_day} Per Day (minimum <span>$</span>${response.plans.minimum_cost})<br/>
+                                                            <div class="inner-day">Enter number of days <input type="number" name="number_of_days" class="form-control number-days" placeholder="0"></div><br/>
+                                                        </div>
+                                                        <div class="right-section">
+                                                            Total : $<span class="total-cost">0</span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" id="per_day" value="${response.plans.per_day}">
+                                                    <input type="hidden" id="minimum_cost" value="${response.plans.minimum_cost}">
                                                 </div>
                                             </div>
                                         </div>`;
-
+                            // Additional Plan
                             var plansList = response.plans.parkings;
                             $.each(plansList, function(key,val) { 
                                 var getPrice = parseFloat(val.price).toFixed(2);
                                 
                                 plans += `<div class="col-lg-6">
                                             <div class="mb-3">
-                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="${val.days}days" data-price="${val.price}">
+                                                <div class="card shadow-sm bg-primary-subtle plan-container" data-plan="${val.days}days" data-price="${val.price}" data-days="${val.days}">
                                                     <div class="card-body">
                                                         <h5>${val.days} Days Parking</h5>
                                                         <h4><span>$</span>${getPrice}</h4>
@@ -92,6 +142,7 @@
                                         </div>`;    
                             });
                             $('#plans-list').html(plans);
+                            setupKeyupListener();
                     }
                 }
             });
@@ -102,7 +153,32 @@
                 });
             } */
         });
+        function setupKeyupListener() {
+            $('[name="number_of_days"]').on('keyup change', function() {
+                var numberOfDays = parseInt($(this).val()) || 0; 
+                var perDay = parseFloat($('#per_day').val()) || 0;
+                var minimumCost = parseInt($('#minimum_cost').val()) || 0;
+                
+                var totalCost = perDay * numberOfDays;
+                $('[data-plan="per_day_plan"]').attr('data-price',totalCost);
+                $('[data-plan="per_day_plan"]').attr('data-days',numberOfDays);
+                $('[name="selected_plan"]').val('per_day_plan');
+                $('[name="30_days_cost"]').val(totalCost);
+                $('[name="total_days"]').val(numberOfDays);
+                if (totalCost <= 0) {
+                    $('.total-cost').text('0.00');
+                    $('.actions').addClass('d-none');
+                    return;
+                }
 
+                $('.total-cost').text(totalCost.toFixed(2));
+                if (totalCost < minimumCost) {
+                    $('.actions').addClass('d-none');
+                } else {
+                    $('.actions').removeClass('d-none');
+                }
+            });
+        }
         $('#unitSelect').on('change', function() {
             const formData = {
                 building_id: $("#buildingSelect").val(),

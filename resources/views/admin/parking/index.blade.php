@@ -26,7 +26,9 @@
                                         <th>Building</th>
                                         <th>Unit Number</th>
                                         <th>Plan</th>
+                                        <th>Amount</th>
                                         <th>Start Date</th>
+                                        <th>End Date</th>
                                         <th>License Plate</th>
                                         <th>Email</th>
                                         <th>Phone Number</th>
@@ -74,7 +76,13 @@
                         data: 'plan'
                     },
                     {
+                        data: 'amount'
+                    },
+                    {
                         data: 'start_date'
+                    },
+                    {
+                        data: 'end_date'
                     },
                     {
                         data: 'license_plate'
