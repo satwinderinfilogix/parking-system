@@ -1,4 +1,14 @@
 <section>
+    <style>
+        input#disclaimer-permission {
+            zoom: 1.4;
+        }
+        b.disc {
+            display: flex;
+            align-items: flex-start;
+            gap: 5px;
+        }
+    </style>
     <div class="row d-none" id="prev-vehicle-history-buttons">
         <div class="col-lg-6">
             <div class="mb-3">
@@ -97,7 +107,7 @@
                 @if(isset($disclaimer))
                 <div class="mb-3">
                     <p>
-                        <b>Disclaimer:</b> {!! $disclaimer !!}
+                        <b class="disc"><input type="checkbox" id="disclaimer-permission"> Disclaimer:</b>{!! $disclaimer !!}
                     </p>
                 </div>
                 @endif
@@ -177,6 +187,7 @@
                 $('#phone-input').show();
                 $('#phone').val(vehicle.phone_number);
                 $('#confirmation-method').val('Text');
+                $('.actions.clearfix').hide();
             }
 
             $('#savedVehiclesModal').modal('hide')
@@ -196,6 +207,18 @@
                 $('#email-input').show();
             } else if (selectedValue === 'Text') {
                 $('#phone-input').show();
+                if($('input#disclaimer-permission').is(':checked')){
+                    $('.actions.clearfix').show();
+                }else{
+                    $('.actions.clearfix').hide();
+                }
+            }
+        });
+        $('input#disclaimer-permission').click(function() {
+            if($(this).is(':checked')){
+                $('.actions.clearfix').show();
+            }else{
+                $('.actions.clearfix').hide();
             }
         });
     });
