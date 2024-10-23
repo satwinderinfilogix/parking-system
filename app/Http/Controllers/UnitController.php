@@ -24,7 +24,7 @@ class UnitController extends Controller
 
     public function getUnits(Request $request)
     {
-        $columns = ['units.id', 'units.building_id', 'buildings.name AS building', 'units.unit_number', 'units.security_code', 'units.30_days_cost'];
+        $columns = ['units.id', 'units.building_id', 'buildings.name AS building', 'units.unit_number', 'units.security_code','units.free'];
 
         $query = Unit::select($columns)
             ->join('buildings', 'units.building_id', '=', 'buildings.id') // Adjust this line to match your foreign key relationship
@@ -88,20 +88,34 @@ class UnitController extends Controller
             'building'   => 'required',
             'unit_number'   => 'required',
             'security_code' => 'required',
-            '30_days_cost' => 'required'
+            'free' => 'required',
+            'every' => 'required',
         ]);
 
         $exist = Unit::where('building_id', $request->building)->where('unit_number', $request->unit_number)->first();
         if ($exist) {
             return redirect()->route('unit.create')->with('error', 'Unit already exist');
         } else {
-            Unit::create([
+            $unit = Unit::create([
                 "building_id" => $request->building,
                 "unit_number" => $request->unit_number,
                 "security_code" => $request->security_code,
-                "30_days_cost" => $request->input('30_days_cost'),
+                "free" => $request->free,
+                "every" => $request->every,
+                "per_day" => $request->per_day,
+                "minimum_cost" => $request->minimum_cost,
             ]);
-            return redirect()->route('unit.index')->with('success', 'Unit created successfully');
+            if(isset($request->periods)){
+                foreach ($request->periods as $period) {
+                    UnitPlan::create([
+                        "building_id" => $request->building,
+                        "unit_id" => $unit->id,
+                        "days" => $period['days'],
+                        "price" => $period['price'],
+                    ]);
+                }
+            }
+            return redirect()->route('unit.edit',$unit->id)->with('success', 'Unit created successfully');
         }
     }
 
@@ -118,7 +132,7 @@ class UnitController extends Controller
      */
     public function edit(string $id)
     {
-        $units = Unit::with('building')->where('id', $id)->first();
+        $units = Unit::with('building')->with('parkings')->where('id', $id)->first();
         $buildings = Building::all();
         return view('admin.unit.edit', compact('buildings', 'units'));
     }
@@ -132,16 +146,32 @@ class UnitController extends Controller
             'building'   => 'required',
             'unit_number'   => 'required',
             'security_code' => 'required',
-            '30_days_cost' => 'required'
+            'free' => 'required',
+            'every' => 'required',
         ]);
 
         Unit::where('id', $id)->update([
             "building_id" => $request->building,
             "unit_number" => $request->unit_number,
             "security_code" => $request->security_code,
-            "30_days_cost" => $request->input('30_days_cost'),
+            "free" => $request->free,
+            "every" => $request->every,
+            "per_day" => $request->per_day,
+            "minimum_cost" => $request->minimum_cost,
         ]);
-        return redirect()->route('unit.index', $id)->with('success', 'Unit updated successfully');
+
+        if(isset($request->periods)){
+            UnitPlan::where('unit_id', $id)->where('building_id', $request->building)->delete();
+            foreach ($request->periods as $period) {
+                UnitPlan::create([
+                    "building_id" => $request->building,
+                    "unit_id" => $id,
+                    "days" => $period['days'],
+                    "price" => $period['price'],
+                ]);
+            }
+        }
+        return redirect()->route('unit.edit', $id)->with('success', 'Unit updated successfully');
     }
 
     /**
@@ -188,12 +218,12 @@ class UnitController extends Controller
                     <div class="row mb-3">
                         <div class="col-md-2">
                             <label for="free-days">Free</label>
-                            <input type="number" id="free-days" name="free_days" 
+                            <input type="number" id="free-days" name="free" 
                                 value="'.$unitPlans->free.'" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <label for="every-days">Every</label>
-                            <input type="number" id="every-days" name="every_days" 
+                            <input type="number" id="every-days" name="every" 
                                 value="'.$unitPlans->every.'" class="form-control">
                         </div>
                     </div>
@@ -212,7 +242,7 @@ class UnitController extends Controller
                         $plans .= '<div class="row mb-3 period-section" id="period-'.$index + 1 .'">
                                         <div class="col-md-2">
                                             <label>Period '.$index + 1 .'</label>
-                                            <input type="number" name="periods[{{ $index }}][days]" 
+                                            <input type="number" name="periods['.$index.'][days]" 
                                                 value="'. old('periods.' . $index . '.days', $unitPlan->days) .'" 
                                                 class="form-control period_days">
                                         </div>
@@ -237,6 +267,22 @@ class UnitController extends Controller
             
         return  $plans;
 
+    }
+    public function planByUnitNumber($building_id,$unit_number){
+
+        $buildingParking = Unit::with('parkings')->where('unit_number',$unit_number)->where('building_id',$building_id)->first();
+
+        if($buildingParking){
+            $data = [
+                "success" => true,
+                "plans" => $buildingParking
+            ];
+        }else{
+            $data = [
+                "message" => "No plans found for this building."
+            ];
+        }
+        return response()->json($data);
     }
 
     public function import(Request $request)

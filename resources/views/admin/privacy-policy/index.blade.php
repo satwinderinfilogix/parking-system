@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-12 mb-2">
                                 <label style="font-size: 20px;">Disclaimer</label>
-                                <textarea name="disclaimer" id="editor2" rows="10" cols="80">{{$policy->disclaimer ?? ''}}</textarea>
+                                <textarea name="disclaimer" id="editor2" rows="10" cols="80">{{$policy->disclaimer ?? 'By providing my contact information, I acknowledge and give my explicit consent to be contacted via SMS and receive emails for various purposes, which may include marketing and promotional content. Message and data rates may apply. Message frequency may vary. Reply STOP to opt out. Refer to our <a href="/privacy-policy">Privacy Policy</a> for more information'}}</textarea>
                             </div>
                             <div class="col-12">
                                 <button class="btn btn-primary mt-2">Save</button>

@@ -53,7 +53,9 @@
             <p><strong>Building ID:</strong> {{ $parking->building_id }}</p>
             <p><strong>Unit ID:</strong> {{ $parking->unit_id }}</p>
             <p><strong>Plan:</strong> {{ $parking->plan }}</p>
+            <p><strong>Amount:</strong> ${{ $parking->amount }}</p>
             <p><strong>Start Date:</strong> {{ $parking->start_date }}</p>
+            <p><strong>End Date:</strong> {{ \Carbon\Carbon::parse($parking->end_date)->format('Y-m-d') }}</p>
             <p><strong>Car Brand:</strong> {{ $parking->car_brand }}</p>
             <p><strong>Model:</strong> {{ $parking->model }}</p>
             <p><strong>Color:</strong> {{ $parking->color }}</p>

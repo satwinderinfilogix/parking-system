@@ -49,7 +49,7 @@ class BuildingController extends Controller
             }
         }
 
-        return redirect()->route('building.index')->with('success','Building created successfully');
+        return redirect()->route('building.edit',$building->id)->with('success','Building created successfully');
     }
 
     /**
@@ -95,7 +95,7 @@ class BuildingController extends Controller
                 ]);
             }
         }
-        return redirect()->route('building.index')->with('success','Building updated successfully');
+        return redirect()->route('building.edit',$id)->with('success','Building updated successfully');
     }
 
     /**
@@ -109,19 +109,4 @@ class BuildingController extends Controller
 
     }
 
-    public function unitByBuildingPlan($building_id){
-        $buildingParking = Building::with('parkings')->where('id',$building_id)->first();
-
-        if($buildingParking){
-            $data = [
-                "success" => true,
-                "plans" => $buildingParking
-            ];
-        }else{
-            $data = [
-                "message" => "No plans found for this building."
-            ];
-        }
-        return response()->json($data);
-    }
 }

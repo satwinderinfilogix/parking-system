@@ -87,8 +87,71 @@
                     }
                 }
             });
+            // Populate units based on the selected building
+            /* if (units[selectedBuilding]) {
+                units[selectedBuilding].forEach(unit => {
+                    $unitSelect.append(`<option value="${unit}">${unit}</option>`);
+                });
+            } */
+        });
+
+        $('#unitSelect').on('change', function() {
+            const formData = {
+                building_id: $("#buildingSelect").val(),
+                unit_id: $("#unitSelect").val(),
+                unit_number : $("#unitSelect option:selected").data('password')
+            }
+
+            let monthlyCost = parseFloat($(`#unitSelect option:selected`).attr('data-30-days-cost'));
+            $(`#30_days_cost`).val(monthlyCost);
+            
+            if(monthlyCost < 1){
+                $(`.monthlyPlanCost`).html(`Free`);
+            } else {
+                $(`.monthlyPlanCost`).html(`&dollar;${monthlyCost.toFixed(2)}`);
+            }
+
             $.ajax({
-                url: `/plans-by-building-id/${selectedBuilding}`,
+                url: '/api/plans',
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success == true) {
+                        $('.plan-container[data-plan="3days"]').removeClass('bg-primary-subtle').addClass('bg-dark-subtle text-white');
+                    } else {
+                        $('.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
+                    }
+                    
+                    if (response.data) {
+                        $('#prev-vehicles-history').html(``);
+
+                        if(response.data.length > 0){
+                            $('#prev-vehicle-history-buttons').removeClass('d-none');
+                            $('.vehicle-form').addClass('d-none');
+                        } else {
+                            $('#prev-vehicle-history-buttons').addClass('d-none');
+                            $('.vehicle-form').removeClass('d-none');
+                        }
+
+                        response.data.forEach((vehicle, index) => {
+                            $('#prev-vehicles-history').append(`<tr data-vehicle="${encodeURIComponent(JSON.stringify(vehicle))}">
+                                <td>${++index}</td>
+                                <td>${vehicle.car_brand}</td>
+                                <td>${vehicle.model}</td>
+                                <td>${vehicle.license_plate}</td>
+                                <td><button class="btn btn-primary btn-sm use-vehicle"><i class="fa fa-check"></i></button></td>
+                            </tr>`);
+                        });
+                    }
+                }
+            });
+            $.ajax({
+                url: `/plans-by-building-id/${formData.building_id}/${formData.unit_number}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
@@ -143,15 +206,9 @@
                     }
                 }
             });
-            // Populate units based on the selected building
-            /* if (units[selectedBuilding]) {
-                units[selectedBuilding].forEach(unit => {
-                    $unitSelect.append(`<option value="${unit}">${unit}</option>`);
-                });
-            } */
         });
         function setupKeyupListener() {
-            $('[name="number_of_days"]').on('keyup change', function() {
+            $('[name="number_of_days"]').on('keyup', function() {
                 var numberOfDays = parseInt($(this).val()) || 0; 
                 var perDay = parseFloat($('#per_day').val()) || 0;
                 var minimumCost = parseInt($('#minimum_cost').val()) || 0;
@@ -180,60 +237,5 @@
 
             });
         }
-        $('#unitSelect').on('change', function() {
-            const formData = {
-                building_id: $("#buildingSelect").val(),
-                unit_id: $("#unitSelect").val(),
-            }
-
-            let monthlyCost = parseFloat($(`#unitSelect option:selected`).attr('data-30-days-cost'));
-            $(`#30_days_cost`).val(monthlyCost);
-            
-            if(monthlyCost < 1){
-                $(`.monthlyPlanCost`).html(`Free`);
-            } else {
-                $(`.monthlyPlanCost`).html(`&dollar;${monthlyCost.toFixed(2)}`);
-            }
-
-            $.ajax({
-                url: '/api/plans',
-                type: 'POST',
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: JSON.stringify(formData),
-                dataType: 'json',
-                success: function(response) {
-                    if(response.success == true) {
-                        $('.plan-container[data-plan="3days"]').removeClass('bg-primary-subtle').addClass('bg-dark-subtle text-white');
-                    } else {
-                        $('.plan-container[data-plan="3days"]').removeClass('bg-dark-subtle text-white').addClass('bg-primary-subtle');
-                    }
-                    
-                    if (response.data) {
-                        $('#prev-vehicles-history').html(``);
-
-                        if(response.data.length > 0){
-                            $('#prev-vehicle-history-buttons').removeClass('d-none');
-                            $('.vehicle-form').addClass('d-none');
-                        } else {
-                            $('#prev-vehicle-history-buttons').addClass('d-none');
-                            $('.vehicle-form').removeClass('d-none');
-                        }
-
-                        response.data.forEach((vehicle, index) => {
-                            $('#prev-vehicles-history').append(`<tr data-vehicle="${encodeURIComponent(JSON.stringify(vehicle))}">
-                                <td>${++index}</td>
-                                <td>${vehicle.car_brand}</td>
-                                <td>${vehicle.model}</td>
-                                <td>${vehicle.license_plate}</td>
-                                <td><button class="btn btn-primary btn-sm use-vehicle"><i class="fa fa-check"></i></button></td>
-                            </tr>`);
-                        });
-                    }
-                }
-            });
-        });
     });
 </script>

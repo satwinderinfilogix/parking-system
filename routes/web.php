@@ -51,7 +51,7 @@ Route::get('/units-by-building-id/{building_id}', [UnitController::class, 'unitB
 Route::get('/units/data', [UnitController::class, 'getUnits']);
 Route::get('/parkings/data', [ParkingController::class, 'getParking']);
 Route::get('/privacy-policy', [SettingController::class, 'privacyPolicy'])->name('privacy.policy');
-Route::get('/plans-by-building-id/{building_id}', [BuildingController::class, 'unitByBuildingPlan']);
+Route::get('/plans-by-building-id/{building_id}/{unit_id}', [UnitController::class, 'planByUnitNumber']);
 
 Route::get('/test-email', function () {
     ini_set('max_execution_time', 120); // Set timeout to 120 seconds

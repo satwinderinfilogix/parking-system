@@ -14,6 +14,6 @@ class Unit extends Model
         return $this->hasOne(Building::class,'id','building_id');
     }
     public function parkings(){
-        return $this->hasMany(BuildingParking::class,'building_id');
+        return $this->hasMany(UnitPlan::class,'building_id');
     }
 }

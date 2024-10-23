@@ -12,7 +12,7 @@ class FrontendController extends Controller
     {
         $buildings = Building::latest()->get();
         $policy = PrivacyPolicy::first();
-        $disclaimer = $policy->disclaimer;
+        $disclaimer = $policy->disclaimer ?? '';
         return view('frontend.index', compact('buildings','disclaimer'));
     }
 }

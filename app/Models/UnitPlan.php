@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class UnitPlan extends Model
 {
     use HasFactory;
-    protected $table = "unit_plans";
+    protected $table = 'unit_plans';
     protected $guarded = [];
 }

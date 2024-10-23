@@ -56,7 +56,7 @@
                                         <th>Building Name</th>
                                         <th>Unit Name</th>
                                         <th>Unit Code</th>
-                                        <th>30 Days Cost</th>
+                                        <th>Free days</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -98,18 +98,7 @@
                         data: 'security_code'
                     },
                     {
-                        data: null,
-                        render: function(data, type, row) {
-                            let cost = row['30_days_cost'];
-
-                            if(cost < 1){
-                                cost = 'FREE';
-                            } else {
-                                cost = `$${cost}`;
-                            }
-
-                            return cost;
-                        }
+                        data: 'free'
                     },
                     {
                         data: null,
