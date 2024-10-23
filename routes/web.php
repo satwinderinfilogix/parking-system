@@ -34,6 +34,7 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::get('/edit-privacy-policy', [SettingController::class, 'viewPrivacyPolicy'])->name('view.privacy.policy');
     Route::post('/update-privacy-policy', [SettingController::class, 'updatePrivacyPolicy'])->name('update.privacy.policy');
 
+    Route::get('/unit-plan-list/{buildingId?}/{planId?}', [UnitController::class, 'unitPlanList'])->name('unit.planlist');
 });
 
 // Import Csv Files 

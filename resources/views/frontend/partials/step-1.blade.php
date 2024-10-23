@@ -14,6 +14,7 @@
             padding-bottom: 0px;
             padding-top: 14px;
             justify-content: space-between;
+            align-items: center;
         }
         .inner-day {
             display: flex;
@@ -156,23 +157,27 @@
                 var minimumCost = parseInt($('#minimum_cost').val()) || 0;
                 
                 var totalCost = perDay * numberOfDays;
-                $('[data-plan="per_day_plan"]').attr('data-price',totalCost);
-                $('[data-plan="per_day_plan"]').attr('data-days',numberOfDays);
-                $('[name="selected_plan"]').val('per_day_plan');
-                $('[name="30_days_cost"]').val(totalCost);
-                $('[name="total_days"]').val(numberOfDays);
+
                 if (totalCost <= 0) {
                     $('.total-cost').text('0.00');
                     $('.actions').addClass('d-none');
                     return;
                 }
-
-                $('.total-cost').text(totalCost.toFixed(2));
                 if (totalCost < minimumCost) {
-                    $('.actions').addClass('d-none');
-                } else {
+                    var totalCost = minimumCost;
+                    $('.total-cost').text(minimumCost.toFixed(2));
                     $('.actions').removeClass('d-none');
-                }
+                }else{
+                    $('.total-cost').text(totalCost.toFixed(2));
+                    $('.actions').removeClass('d-none');
+                } 
+                
+                $('[data-plan="per_day_plan"]').attr('data-price',totalCost);
+                $('[data-plan="per_day_plan"]').attr('data-days',numberOfDays);
+                $('[name="selected_plan"]').val('per_day_plan');
+                $('[name="30_days_cost"]').val(totalCost);
+                $('[name="total_days"]').val(numberOfDays);
+
             });
         }
         $('#unitSelect').on('change', function() {

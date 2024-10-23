@@ -13,4 +13,7 @@ class Unit extends Model
     public function building(){
         return $this->hasOne(Building::class,'id','building_id');
     }
+    public function parkings(){
+        return $this->hasMany(BuildingParking::class,'building_id');
+    }
 }

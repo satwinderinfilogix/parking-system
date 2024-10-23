@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Building;
+use App\Models\BuildingParking;
 use App\Models\Unit;
+use App\Models\UnitPlan;
 use App\Imports\UnitsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
@@ -164,6 +166,77 @@ class UnitController extends Controller
             'success' => true,
             'units'   => $units
         ]);
+    }
+
+    public function unitPlanList($buildingId = null,$planId = null){
+        //return 
+        if($buildingId && $planId){
+            $unitPlans =  UnitPlan::where('building_id',$buildingId)->where('unit_id',$planId)->get();
+            if(count($unitPlans) === 0){
+                $unitPlans = Building::with('parkings')->where('id',$buildingId)->first();
+            }
+        }else{
+            $unitPlans = Building::with('parkings')->where('id',$buildingId)->first();
+        }
+
+            $plans = '<div class="col-lg-6">
+            <div class="mb-3">
+                <label for="basicpill-building-input">Number of days</label>
+                <div id="days-section">
+
+                    <!-- Free and Every Section -->
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <label for="free-days">Free</label>
+                            <input type="number" id="free-days" name="free_days" 
+                                value="'.$unitPlans->free.'" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="every-days">Every</label>
+                            <input type="number" id="every-days" name="every_days" 
+                                value="'.$unitPlans->every.'" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="per-day">Per Day Cost</label>
+                            <input type="number" id="per-day" name="per_day" value="'.$unitPlans->per_day.'" class="form-control" step="0.1" min="0" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="minimum-cost">Minimum Cost</label>
+                            <input type="number" id="minimum-cost" name="minimum_cost" value="'.$unitPlans->minimum_cost.'" class="form-control" step="0.1" min="0" required>
+                        </div>
+                    </div>
+                    <div id="periods">';
+                    foreach($unitPlans->parkings as $index => $unitPlan){
+                        $plans .= '<div class="row mb-3 period-section" id="period-'.$index + 1 .'">
+                                        <div class="col-md-2">
+                                            <label>Period '.$index + 1 .'</label>
+                                            <input type="number" name="periods[{{ $index }}][days]" 
+                                                value="'. old('periods.' . $index . '.days', $unitPlan->days) .'" 
+                                                class="form-control period_days">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Default$</label>
+                                            <input type="number" name="periods['.$index.'][price]" 
+                                                value="'. old('periods.' . $index . '.price', $unitPlan->price) .'" 
+                                                class="form-control period_price">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-danger mt-4 remove-period-btn" data-period="'.$index + 1 .'">
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>';
+                    }
+                    $plans .= '</div>
+                    <button type="button" id="add-period-btn" class="btn btn-primary mt-2">Add Period</button>
+                </div>
+            </div>
+        </div>';
+            
+        return  $plans;
+
     }
 
     public function import(Request $request)

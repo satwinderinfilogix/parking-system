@@ -54,13 +54,10 @@
 
                 if (totalCost <= 0) {
                     $('.actions').addClass('d-none');
-                }
-
-                if (totalCost < minimumCost) {
-                    $('.actions').addClass('d-none');
-                } else {
+                }else{
                     $('.actions').removeClass('d-none');
                 }
+
             }
         });
 

@@ -16,7 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('building_id'); 
             $table->string('unit_number', 50);
             $table->string('security_code', 50);
-            $table->decimal('30_days_cost', 8, 2)->default(0);
+            
+            $table->string('free')->nullable();
+            $table->string('every')->nullable();
+            $table->float('per_day')->nullable();
+            $table->float('minimum_cost')->nullable();
+
             $table->timestamps();
             $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
         });
